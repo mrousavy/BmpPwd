@@ -1,4 +1,5 @@
 ﻿//Reference BmpPwd DLL
+using Microsoft.Win32;
 using mrousavy.Cryptography;
 
 using System;
@@ -35,7 +36,6 @@ namespace BmpPwdTest {
                 Encrypt();
         }
 
-
         public static ImageSource ByteToImage(byte[] imageData) {
             BitmapImage biImg = new BitmapImage();
             MemoryStream ms = new MemoryStream(imageData);
@@ -56,20 +56,71 @@ namespace BmpPwdTest {
             Bitmap encryptedBitmap = BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text, new Cipher(), scheme, colorScheme);
 
             //Convert Bitmap to ImageSource
-            string outputFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "file.png");
             using(MemoryStream memory = new MemoryStream()) {
-                using(FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite)) {
-                    encryptedBitmap.Save(memory, ImageFormat.Png);
-                    byte[] bytes = memory.ToArray();
-
-                    fs.Write(bytes, 0, bytes.Length);
-                    EncryptedImage.Source = ByteToImage(bytes);
-                }
+                encryptedBitmap.Save(memory, ImageFormat.Png);
+                byte[] bytes = memory.ToArray();
+                EncryptedImage.Source = ByteToImage(bytes);
             }
         }
 
         private void SaveButton_OnClick(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
+            try {
+                string path;
+
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Image files (*.png)|*.png";
+                sfd.FilterIndex = 2;
+                sfd.RestoreDirectory = true;
+
+                if(sfd.ShowDialog() == true) {
+                    path = sfd.FileName;
+
+                    PngBitmapEncoder encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create((BitmapSource)EncryptedImage.Source));
+                    using(FileStream stream = new FileStream(path, FileMode.Create))
+                        encoder.Save(stream);
+                }
+            } catch(Exception ex) {
+                MessageBox.Show($"Could not save Image!\n{ex.Message}", "Error saving Image");
+            }
+        }
+        private void OpenButton_OnClick(object sender, RoutedEventArgs e) {
+            try {
+                string path;
+
+                OpenFileDialog sfd = new OpenFileDialog();
+                sfd.Filter = "Image files (*.png)|*.png";
+                sfd.FilterIndex = 2;
+                sfd.RestoreDirectory = true;
+
+                if(sfd.ShowDialog() == true) {
+                    path = sfd.FileName;
+
+                    byte[] bytes = File.ReadAllBytes(path);
+
+                    BitmapImage biImg = new BitmapImage();
+                    using(MemoryStream ms = new MemoryStream(bytes)) {
+                        biImg.BeginInit();
+                        biImg.StreamSource = ms;
+                        biImg.EndInit();
+
+                        EncryptedImage.Source = biImg;
+
+                        using(MemoryStream outStream = new MemoryStream()) {
+                            BitmapEncoder enc = new BmpBitmapEncoder();
+                            enc.Frames.Add(BitmapFrame.Create(biImg));
+                            enc.Save(outStream);
+                            Bitmap bitmap = new Bitmap(outStream);
+
+                            DecryptedBox.Text = BmpPwd.Decrypt("MyPassword", new Bitmap(bitmap), new Cipher(), scheme, colorScheme);
+
+                            MessageBox.Show("Decrypted: " + DecryptedBox.Text, "Successfully decrypted!");
+                        }
+                    }
+                }
+            } catch(Exception ex) {
+                MessageBox.Show($"Could not open Image!\n{ex.Message}", "Error opening Image");
+            }
         }
 
 
