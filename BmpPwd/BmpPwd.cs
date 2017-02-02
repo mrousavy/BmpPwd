@@ -24,7 +24,7 @@ namespace mrousavy {
             /// <param name="unencryptedText">The original unencrypted Text</param>
             /// <returns>The Encrypted Bitmap</returns>
             public static Bitmap Encrypt(string salt, string unencryptedText) {
-                return BmpPwd.Encrypt(salt, unencryptedText, new Cipher(), DrawingScheme.Line);
+                return BmpPwd.Encrypt(salt, unencryptedText, new Cipher(), DrawingScheme.Square);
             }
 
             /// <summary>
@@ -64,7 +64,7 @@ namespace mrousavy {
             /// <param name="encryptedBitmap">The <see cref="BmpPwd"/> Encrypted <see cref="Bitmap"/></param>
             /// <returns>The decrypted Text from the Bitmap</returns>
             public static string Decrypt(string salt, Bitmap encryptedBitmap) {
-                return BmpPwd.Decrypt(salt, encryptedBitmap, new Cipher(), DrawingScheme.Line);
+                return BmpPwd.Decrypt(salt, encryptedBitmap, new Cipher(), DrawingScheme.Square);
             }
 
             /// <summary>
@@ -106,13 +106,18 @@ namespace mrousavy {
 
             //Helpers for different Schemes or Configs
             #region Helpers
-
+            /// <summary>
+            /// Creates Graphics and draws all the Text (ASCII Values/bytes) onto a Bitmap with the correct <see cref="DrawingScheme"/>
+            /// </summary>
+            /// <param name="encryptedBitmap">The <see cref="Bitmap"/> to draw on</param>
+            /// <param name="drawingScheme">The <see cref="DrawingScheme"/> to use for the drawing Process</param>
+            /// <param name="asciiValues">All the ASCII values of the Text to draw</param>
             private static void DrawCorrectScheme(Bitmap encryptedBitmap, DrawingScheme drawingScheme, byte[] asciiValues) {
                 //Initialize Graphics
                 using(Graphics gfx = Graphics.FromImage(encryptedBitmap)) {
                     //Position in Bitmap
                     int position = 0;
-                    int diameter = encryptedBitmap.Width / 2;
+                    int diameter = encryptedBitmap.Width;
 
                     #region Drawing
                     //Loop through each Pixel
@@ -160,15 +165,15 @@ namespace mrousavy {
                         width = imageWidth / 2;
                         y = (imageWidth / 2) - 1;
                         break;
-                    case DrawingScheme.Line:
-                        //Line has only height of 1 (Index = 0)
-                        width = imageWidth;
-                        y = 0;
-                        break;
                     case DrawingScheme.Square:
                         //Square has dynamic height -> width = Bitmap.Width / 2
                         width = imageWidth / 2;
                         y = (imageWidth / 2) - 1;
+                        break;
+                    case DrawingScheme.Line:
+                        //Line has only height of 1 (Index = 0)
+                        width = imageWidth;
+                        y = 0;
                         break;
                     default:
                         //Default is Line
@@ -194,15 +199,15 @@ namespace mrousavy {
                         width = textLength * 2;
                         height = textLength * 2;
                         break;
-                    case DrawingScheme.Line:
-                        //Line has only height of 1 (default values)
-                        height = 1;
-                        width = textLength;
-                        break;
                     case DrawingScheme.Square:
                         //Square has dynamic height -> width & height = textlength * 2
                         width = textLength * 2;
                         height = textLength * 2;
+                        break;
+                    case DrawingScheme.Line:
+                        //Line has only height of 1 (default values)
+                        height = 1;
+                        width = textLength;
                         break;
                     default:
                         //Default is Line
