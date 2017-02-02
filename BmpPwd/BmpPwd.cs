@@ -39,31 +39,9 @@ namespace mrousavy {
                 //Get the encrypted Text
                 string encryptedText = cryptSchema.Encrypt(salt, unencryptedText);
 
-                int width, height;
-
-                //Set correct Width and Height values for different DrawingSchemes
-                switch(drawingScheme) {
-                    case DrawingScheme.Circular:
-                        //Circular has radius of bytes -> width & height = textlength * 2
-                        width = encryptedText.Length * 2;
-                        height = encryptedText.Length * 2;
-                        break;
-                    case DrawingScheme.Line:
-                        //Line has only height of 1 (default values)
-                        height = 1;
-                        width = encryptedText.Length;
-                        break;
-                    case DrawingScheme.Square:
-                        //Square has dynamic height -> width & height = textlength * 2
-                        width = encryptedText.Length * 2;
-                        height = encryptedText.Length * 2;
-                        break;
-                    default:
-                        //Default is Line
-                        height = 1;
-                        width = encryptedText.Length;
-                        break;
-                }
+                //Set correct Width and Height values
+                int width = 0, height = 0;
+                SetWidthHeight(drawingScheme, ref height, ref width, encryptedText.Length);
 
                 //Create Bitmap with correct Sizes
                 Bitmap encryptedBitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
@@ -71,41 +49,8 @@ namespace mrousavy {
                 //Get all ASCII values
                 byte[] asciiValues = Encoding.ASCII.GetBytes(encryptedText);
 
-                //Initialize Graphics
-                using(Graphics gfx = Graphics.FromImage(encryptedBitmap)) {
-                    //Position in Bitmap
-                    int position = 0;
-                    int diameter = encryptedBitmap.Width;
-
-                    #region Drawing
-                    //Loop through each Pixel
-                    foreach(byte b in asciiValues) {
-
-                        //Set Pixel to ASCII Values (change Color.FromArg() values for different colors)
-                        using(SolidBrush brush = new SolidBrush(Color.FromArgb(b * 2, 0, 0))) {
-                            using(Pen pen = new Pen(brush, 2)) {
-                                //Draw different Schemes
-                                switch(drawingScheme) {
-                                    case DrawingScheme.Circular:
-                                        //Circular has dynamic height -> y = height/2
-                                        gfx.DrawEllipse(pen, position, position, diameter, diameter);
-                                        break;
-                                    case DrawingScheme.Line:
-                                        //Line has only 1 Pixel Height -> y = 0
-                                        gfx.FillRectangle(brush, position, 0, 1, 1);
-                                        break;
-                                    case DrawingScheme.Square:
-                                        //Square has dynamic height -> y = height/2
-                                        gfx.DrawRectangle(pen, position, position, diameter, diameter);
-                                        break;
-                                }
-                            }
-                        }
-                        position++;
-                        diameter -= 2;
-                    }
-                    #endregion
-                }
+                //Draw onto the Bitmap
+                DrawCorrectScheme(encryptedBitmap, drawingScheme, asciiValues);
 
                 return encryptedBitmap;
             }
@@ -162,8 +107,42 @@ namespace mrousavy {
             //Helpers for different Schemes or Configs
             #region Helpers
 
-            private static void DrawCorrectScheme(ref Graphics gfx, byte value, Brush brush, DrawingScheme drawingScheme) {
+            private static void DrawCorrectScheme(Bitmap encryptedBitmap, DrawingScheme drawingScheme, byte[] asciiValues) {
+                //Initialize Graphics
+                using(Graphics gfx = Graphics.FromImage(encryptedBitmap)) {
+                    //Position in Bitmap
+                    int position = 0;
+                    int diameter = encryptedBitmap.Width / 2;
 
+                    #region Drawing
+                    //Loop through each Pixel
+                    foreach(byte b in asciiValues) {
+
+                        //Set Pixel to ASCII Values (change Color.FromArg() values for different colors)
+                        using(SolidBrush brush = new SolidBrush(Color.FromArgb(b * 2, 0, 0))) {
+                            using(Pen pen = new Pen(brush, 2)) {
+                                //Draw different Schemes
+                                switch(drawingScheme) {
+                                    case DrawingScheme.Circular:
+                                        //Circular has dynamic height -> y = height/2
+                                        gfx.DrawEllipse(pen, position, position, diameter, diameter);
+                                        break;
+                                    case DrawingScheme.Line:
+                                        //Line has only 1 Pixel Height -> y = 0
+                                        gfx.FillRectangle(brush, position, 0, 1, 1);
+                                        break;
+                                    case DrawingScheme.Square:
+                                        //Square has dynamic height -> y = height/2
+                                        gfx.DrawRectangle(pen, position, position, diameter, diameter);
+                                        break;
+                                }
+                            }
+                        }
+                        position++;
+                        diameter -= 2;
+                    }
+                    #endregion
+                }
             }
 
             /// <summary>
@@ -198,6 +177,39 @@ namespace mrousavy {
                         break;
                 }
 
+            }
+
+            /// <summary>
+            /// Sets width and height values depending on the <see cref="DrawingScheme"/>
+            /// </summary>
+            /// <param name="scheme">The <see cref="DrawingScheme"/> to use</param>
+            /// <param name="height">The height value to be set</param>
+            /// <param name="width">The width value to be set</param>
+            /// <param name="textLength">The Encrypted Text's length</param>
+            private static void SetWidthHeight(DrawingScheme scheme, ref int height, ref int width, int textLength) {
+                //Set correct Width and Height values for different DrawingSchemes
+                switch(scheme) {
+                    case DrawingScheme.Circular:
+                        //Circular has radius of bytes -> width & height = textlength * 2
+                        width = textLength * 2;
+                        height = textLength * 2;
+                        break;
+                    case DrawingScheme.Line:
+                        //Line has only height of 1 (default values)
+                        height = 1;
+                        width = textLength;
+                        break;
+                    case DrawingScheme.Square:
+                        //Square has dynamic height -> width & height = textlength * 2
+                        width = textLength * 2;
+                        height = textLength * 2;
+                        break;
+                    default:
+                        //Default is Line
+                        height = 1;
+                        width = textLength;
+                        break;
+                }
             }
 
             /// <summary>
