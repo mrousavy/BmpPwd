@@ -19,7 +19,7 @@ namespace mrousavy {
             /// <summary>
             /// Color Scheme/Style for Image Drawing
             /// </summary>
-            public enum ColorScheme { Greyscale, RedOnly, GreenOnly, BlueOnly, RedMixed, GreenMixed, BlueMixed }
+            public enum ColorScheme { Greyscale, RedOnly, GreenOnly, BlueOnly, RedMixed, GreenMixed, BlueMixed, Rainbow }
 
             //Text & Bitmap Encryption
             #region Encrypt
@@ -189,6 +189,8 @@ namespace mrousavy {
                 Random random = new Random();
                 int rnd1 = random.Next(0, 128);
                 int rnd2 = random.Next(0, 128);
+                int rainbow1 = random.Next(0, 255);
+                int rainbow2 = random.Next(0, 255);
 
                 switch(colorScheme) {
                     case ColorScheme.Greyscale:
@@ -205,6 +207,8 @@ namespace mrousavy {
                         return Color.FromArgb(rnd1, b, rnd2);
                     case ColorScheme.BlueMixed:
                         return Color.FromArgb(rnd1, rnd2, b);
+                    case ColorScheme.Rainbow:
+                        return Color.FromArgb(b, rainbow1, rainbow2);
                     default:
                         return Color.FromArgb(b, b, b);
                 }
@@ -232,6 +236,8 @@ namespace mrousavy {
                         return color.G;
                     case ColorScheme.BlueMixed:
                         return color.B;
+                    case ColorScheme.Rainbow:
+                        return color.R;
                     default:
                         return color.R;
                 }

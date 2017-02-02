@@ -66,12 +66,6 @@ namespace BmpPwdTest {
                     EncryptedImage.Source = ByteToImage(bytes);
                 }
             }
-
-            Cipher c = new Cipher();
-            string enc = c.Encrypt("MyPassword", UnencryptedBox.Text);
-            string dec = c.Decrypt("MyPassword", enc);
-
-            MessageBox.Show("Decrypted: " + BmpPwd.Decrypt("MyPassword", encryptedBitmap, new Cipher(), scheme, colorScheme));
         }
 
         private void SaveButton_OnClick(object sender, RoutedEventArgs e) {

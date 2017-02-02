@@ -58,6 +58,9 @@
                 <ComboBoxItem>
                     Blue Mixed
                 </ComboBoxItem>
+                <ComboBoxItem>
+                    Rainbow
+                </ComboBoxItem>
             </ComboBox>
         </StackPanel>
         
