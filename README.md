@@ -26,7 +26,6 @@
    ```
    
 ### 4. Import your own Encryption
-   *
    ```C#
    public class MyCryptoClass : ICrypto{
         ...
