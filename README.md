@@ -32,7 +32,9 @@
    ```
 
 ### 5. Use custom Parameters:
-   * `Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted", new MyCryptoClass(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.BlueMixed);`
+   ```C#
+   Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted", new MyCryptoClass(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.BlueMixed);
+   ```
 
 # Screenshots
 <img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Screenshot.png?raw=true">
