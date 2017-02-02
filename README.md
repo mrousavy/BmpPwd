@@ -1,7 +1,7 @@
-# <img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/BmpPwd.png?raw=true" width="42"> BmpPwd
+# <img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Logo.png?raw=true" width="42"> BmpPwd
 **BmpPwd** is a _Class Library_ for **en/decrypting** Text and visualizing it with a **System.Drawing.Bitmap**
 
-[Download the Demo (.exe)](https://github.com/mrousavy/BmpPwd/releases/download/1.0.0.4/BmpPwdTest.exe)
+[Download the Demo (.zip)](https://github.com/mrousavy/BmpPwd/releases/download/1.0.0.4/BmpPwdTest.zip)
 
 # How to use
 
