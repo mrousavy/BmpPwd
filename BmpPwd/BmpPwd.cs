@@ -24,7 +24,7 @@ namespace mrousavy {
             /// <param name="unencryptedText">The original unencrypted Text</param>
             /// <returns>The Encrypted Bitmap</returns>
             public static Bitmap Encrypt(string salt, string unencryptedText) {
-                return BmpPwd.Encrypt(salt, unencryptedText, new Cipher(), DrawingScheme.Square);
+                return BmpPwd.Encrypt(salt, unencryptedText, new Cipher(), DrawingScheme.Line);
             }
 
             /// <summary>
@@ -64,7 +64,7 @@ namespace mrousavy {
             /// <param name="encryptedBitmap">The <see cref="BmpPwd"/> Encrypted <see cref="Bitmap"/></param>
             /// <returns>The decrypted Text from the Bitmap</returns>
             public static string Decrypt(string salt, Bitmap encryptedBitmap) {
-                return BmpPwd.Decrypt(salt, encryptedBitmap, new Cipher(), DrawingScheme.Square);
+                return BmpPwd.Decrypt(salt, encryptedBitmap, new Cipher(), DrawingScheme.Line);
             }
 
             /// <summary>
@@ -138,7 +138,7 @@ namespace mrousavy {
                                         break;
                                     case DrawingScheme.Square:
                                         //Square has dynamic height -> y = height/2
-                                        gfx.DrawRectangle(pen, position, position, diameter, diameter);
+                                        gfx.FillRectangle(brush, position, position, diameter, diameter);
                                         break;
                                 }
                             }
@@ -234,13 +234,13 @@ namespace mrousavy {
                             //Circular has dynamic height -> y = height/2
                             colors[i] = encryptedBitmap.GetPixel(i, y);
                             break;
-                        case DrawingScheme.Line:
-                            //Line has only 1 Pixel Height -> y = 0
-                            colors[i] = encryptedBitmap.GetPixel(i, 0);
-                            break;
                         case DrawingScheme.Square:
                             //Square has dynamic height -> y = height/2
                             colors[i] = encryptedBitmap.GetPixel(i, y);
+                            break;
+                        case DrawingScheme.Line:
+                            //Line has only 1 Pixel Height -> y = 0
+                            colors[i] = encryptedBitmap.GetPixel(i, 0);
                             break;
                     }
                 }
