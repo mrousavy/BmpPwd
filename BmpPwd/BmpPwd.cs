@@ -9,6 +9,7 @@ namespace mrousavy {
         /// En/De-crypt Text to a Bitmap
         /// </summary>
         public static class BmpPwd {
+            #region Enccrypt
             /// <summary>
             /// Encrypt Text to a Bitmap with default Cipher Encryption
             /// </summary>
@@ -53,10 +54,49 @@ namespace mrousavy {
 
                 return encryptedBitmap;
             }
+            #endregion
 
+            #region Decrypt
+            /// <summary>
+            /// Decrypt a encrypted <see cref="Bitmap"/> to a <see cref="string"/>
+            /// </summary>
+            /// <param name="salt">The salt used for the Encryption</param>
+            /// <param name="encryptedBitmap">The <see cref="BmpPwd"/> Encrypted <see cref="Bitmap"/></param>
+            /// <returns>The decrypted Text from the Bitmap</returns>
+            public static string Decrypt(string salt, Bitmap encryptedBitmap) {
+                return BmpPwd.Decrypt(salt, encryptedBitmap, new Cipher());
+            }
 
+            /// <summary>
+            /// Decrypt a encrypted <see cref="Bitmap"/> to a <see cref="string"/>
+            /// </summary>
+            /// <param name="salt">The salt used for the Encryption</param>
+            /// <param name="encryptedBitmap">The <see cref="BmpPwd"/> Encrypted <see cref="Bitmap"/></param>
+            /// <param name="cryptSchema">The Schema/Interface Used for Decryption</param>
+            /// <returns>The decrypted Text from the Bitmap</returns>
+            public static string Decrypt(string salt, Bitmap encryptedBitmap, ICrypt cryptSchema) {
+                //Get all Pixels from Bitmap
+                Color[] colors = new Color[encryptedBitmap.Width];
+                for(int i = 0; i < encryptedBitmap.Width; i++) {
+                    colors[i] = encryptedBitmap.GetPixel(i, 0);
+                }
 
-            //TODO: Decrypt
+                //Fill ASCII Values with Color's R Value (R = G = B)
+                byte[] asciiValues = new byte[encryptedBitmap.Width];
+                for(int i = 0; i < encryptedBitmap.Width; i++) {
+                    asciiValues[i] = colors[i].R;
+                }
+
+                //Fill Char[] with the ASCII Value
+                char[] chars = new char[encryptedBitmap.Width];
+                for(int i = 0; i < encryptedBitmap.Width; i++) {
+                    chars[i] = (char)asciiValues[i];
+                }
+
+                return chars.ToString();
+            }
+
+            #endregion
         }
     }
 }
