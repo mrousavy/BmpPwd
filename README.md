@@ -20,7 +20,8 @@
 
 ### 3. Encrypt a string
    ```C#
-   Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
+   //Reference to System.Drawing dll has to be added
+   System.Drawing.Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
    ```
    
 ### 4. Import your own Encryption
