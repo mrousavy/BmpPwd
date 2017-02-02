@@ -104,7 +104,7 @@ namespace mrousavy {
                 //Fill ASCII Values with Color's R Value (R = G = B)
                 byte[] asciiValues = new byte[width];
                 for(int i = 0; i < width; i++) {
-                    asciiValues[i] = (byte)(colors[i].R / 2);
+                    asciiValues[i] = (byte)(GetAsciiValue(colorScheme, colors[i]) / 2);
                 }
 
                 //Fill Char[] with the ASCII Value
@@ -144,8 +144,11 @@ namespace mrousavy {
                     //Loop through each Pixel
                     foreach(byte b in asciiValues) {
 
+                        //The correct color used for drawing (b * 2 because b's max value is 128)
+                        Color color = GetColor(colorScheme, (byte)(b * 2));
+
                         //Set Pixel to ASCII Values (change Color.FromArg() values for different colors)
-                        using(SolidBrush brush = new SolidBrush(Color.FromArgb(b * 2, random.Next(0, 255), random.Next(0, 255)))) {
+                        using(SolidBrush brush = new SolidBrush(color)) {
                             using(Pen pen = new Pen(brush, 2)) {
                                 //Draw different Schemes
                                 switch(drawingScheme) {
@@ -168,6 +171,66 @@ namespace mrousavy {
                         diameter -= 2;
                     }
                     #endregion
+                }
+            }
+
+
+            /// <summary>
+            /// Gets the correct <see cref="Color"/>
+            /// </summary>
+            /// <param name="colorScheme">The <see cref="ColorScheme"/> to apply on the Color picking</param>
+            /// <param name="b">The byte defining the dynamic Color</param>
+            /// <returns>The correct <see cref="Color"/></returns>
+            private static Color GetColor(ColorScheme colorScheme, byte b) {
+                //For Mixed Colors
+                Random random = new Random();
+                int rnd1 = random.Next(0, 255);
+                int rnd2 = random.Next(0, 255);
+
+                switch(colorScheme) {
+                    case ColorScheme.Greyscale:
+                        return Color.FromArgb(b, b, b);
+                    case ColorScheme.RedOnly:
+                        return Color.FromArgb(b, 0, 0);
+                    case ColorScheme.GreenOnly:
+                        return Color.FromArgb(0, b, 0);
+                    case ColorScheme.BlueOnly:
+                        return Color.FromArgb(0, 0, b);
+                    case ColorScheme.RedMixed:
+                        return Color.FromArgb(b, rnd1, rnd2);
+                    case ColorScheme.GreenMixed:
+                        return Color.FromArgb(rnd1, b, rnd2);
+                    case ColorScheme.BlueMixed:
+                        return Color.FromArgb(rnd1, rnd2, b);
+                    default:
+                        return Color.FromArgb(b, b, b);
+                }
+            }
+
+            /// <summary>
+            /// Gets the correct ASCII Value from the <see cref="Color"/> Input
+            /// </summary>
+            /// <param name="colorScheme">The <see cref="ColorScheme"/> to apply on the Color picking</param>
+            /// <param name="color">The <see cref="Color"/> where the ASCII Value should be picked</param>
+            /// <returns>The correct <see cref="Color"/></returns>
+            private static byte GetAsciiValue(ColorScheme colorScheme, Color color) {
+                switch(colorScheme) {
+                    case ColorScheme.Greyscale:
+                        return color.R;
+                    case ColorScheme.RedOnly:
+                        return color.R;
+                    case ColorScheme.GreenOnly:
+                        return color.G;
+                    case ColorScheme.BlueOnly:
+                        return color.B;
+                    case ColorScheme.RedMixed:
+                        return color.R;
+                    case ColorScheme.GreenMixed:
+                        return color.G;
+                    case ColorScheme.BlueMixed:
+                        return color.B;
+                    default:
+                        return color.R;
                 }
             }
 
