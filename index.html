@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/BmpPwd/assets/css/style.css?v=3cef9ac8724e5098d9cd1190deb69b3a678adc4c">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">BmpPwd</h1>
+      <h2 class="project-tagline">BmpPwd is a Class Library for en/decrypting Text and visualizing it with a System.Drawing.Bitmap</h2>
+      
+        <a href="https://github.com/mrousavy/BmpPwd" class="btn">View on GitHub</a>
+      
+      
+    </section>
+
+    <section class="main-content">
+      <h1 id="img-srchttpsgithubcommrousavybmppwdblobmasterimageslogopngrawtrue-width42-bmppwd"><img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Logo.png?raw=true" width="42" /> BmpPwd</h1>
+<p><strong>BmpPwd</strong> is a <em>Class Library</em> for <strong>en/decrypting</strong> Text and visualizing it with a <strong>System.Drawing.Bitmap</strong></p>
+
+<p><a href="https://github.com/mrousavy/BmpPwd/releases/download/1.0.0.4/BmpPwdTest.zip">Download the Demo (.zip)</a></p>
+
+<h1 id="how-to-use">How to use</h1>
+
+<h3 id="add-binaries">1. Add Binaries</h3>
+<ul>
+  <li>NuGet
+    <ul>
+      <li><a href="https://www.nuget.org/packages/BmpPwd">BmpPwd is also available on NuGet!</a>   Install by typing <code class="highlighter-rouge">Install-Package BmpPwd</code> in NuGet Package Manager Console. (Or search for <code class="highlighter-rouge">BmpPwd</code> on NuGet)</li>
+    </ul>
+  </li>
+  <li>Manually
+    <ol>
+      <li><a href="https://github.com/mrousavy/BmpPwd/releases/download/1.0.0.4/BmpPwd.dll">Download the latest Library (.dll)</a></li>
+      <li>Add the .dll to your Project   (Right click <code class="highlighter-rouge">References</code> in the Project Tree View, click <code class="highlighter-rouge">Add References</code> and <code class="highlighter-rouge">Browse</code> to the <code class="highlighter-rouge">.dll</code> File)</li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="add-the-reference">2. Add the reference</h3>
+<p><code class="highlighter-rouge">
+   using mrousavy.Cryptography;
+  </code></p>
+
+<h3 id="encrypt-a-string">3. Encrypt a string</h3>
+<p><code class="highlighter-rouge">
+   //Needs Reference to System.Drawing dll <br/>
+
+   System.Drawing.Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
+  </code></p>
+
+<h3 id="import-your-own-encryption">4. Import your own Encryption</h3>
+<p><code class="highlighter-rouge">
+   public class MyCryptoClass : ICrypto{
+        ...
+   }
+  </code></p>
+
+<h3 id="use-custom-parameters">5. Use custom Parameters:</h3>
+<p><code class="highlighter-rouge">
+   Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted", new MyCryptoClass(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.BlueMixed);
+  </code></p>
+
+<h1 id="screenshots">Screenshots</h1>
+<p><img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Screenshots.gif?raw=true" alt="Screenshots in a gif" /></p>
+
+<p><img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/password.png?raw=true" alt="The Password 'password' in Rainbow/Square" /></p>
+
+<h1 id="thanks-for-using-bmppwd">Thanks for using BmpPwd!</h1>
+
+      <footer class="site-footer">
+          <span class="site-footer-owner"><a href="https://github.com/mrousavy/BmpPwd">BmpPwd</a> is maintained by <a href="https://github.com/mrousavy">mrousavy</a>.</span>
+      </footer>
+    </section>
+
+    
+  </body>
+</html>
