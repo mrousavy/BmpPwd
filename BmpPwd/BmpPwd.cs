@@ -184,8 +184,8 @@ namespace mrousavy {
             private static Color GetColor(ColorScheme colorScheme, byte b) {
                 //For Mixed Colors
                 Random random = new Random();
-                int rnd1 = random.Next(0, 255);
-                int rnd2 = random.Next(0, 255);
+                int rnd1 = random.Next(0, 128);
+                int rnd2 = random.Next(0, 128);
 
                 switch(colorScheme) {
                     case ColorScheme.Greyscale:
