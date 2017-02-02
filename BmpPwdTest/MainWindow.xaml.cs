@@ -1,4 +1,6 @@
-﻿using mrousavy.Cryptography;
+﻿//Reference BmpPwd DLL
+using mrousavy.Cryptography;
+
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -60,7 +62,7 @@ namespace BmpPwdTest {
                 }
             }
 
-            mrousavy.Cryptography.Cipher c = new Cipher();
+            Cipher c = new Cipher();
             string enc = c.Encrypt("MyPassword", UnencryptedBox.Text);
             string dec = c.Decrypt("MyPassword", enc);
 

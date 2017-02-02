@@ -44,6 +44,7 @@
     <Compile Include="BmpPwd.cs" />
     <Compile Include="Cipher.cs" />
     <Compile Include="ICrypt.cs" />
+    <Compile Include="NoEncryption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
