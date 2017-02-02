@@ -5,29 +5,61 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BmpPwdTest"
         mc:Ignorable="d"
-        Title="BmpPwd Test" Height="350" Width="525">
+        Title="BmpPwd Demo" Height="350" Width="525">
     <Grid>
-        <TextBox x:Name="UnencryptedBox" Width="150" Height="20"
+
+        <StackPanel Orientation="Horizontal" Margin="10"
+                    VerticalAlignment="Top" HorizontalAlignment="Left">
+            <TextBox Margin="3" x:Name="UnencryptedBox" Width="150" Height="20"
                  VerticalAlignment="Top" HorizontalAlignment="Left"
-                 Margin="30" KeyDown="UnencryptedBox_OnKeyDown"></TextBox>
-        <Button Margin="190,30,30,30" Height="20"
+                 KeyDown="UnencryptedBox_OnKeyDown"/>
+            
+            <Button Margin="3" Height="20"
             VerticalAlignment="Top" HorizontalAlignment="Left"
             Click="EncryptButton_OnClick">Encrypt</Button>
-        <Button Margin="240,30,30,30" Height="20"
+            
+            <Button Margin="3" Height="20"
             VerticalAlignment="Top" HorizontalAlignment="Left"
             Click="SaveButton_OnClick">Save</Button>
-        <ComboBox Margin="275,30,30,30" Height="20" SelectionChanged="ComboBox_SelectionChanged"
+            
+            <ComboBox Margin="3" Height="20" SelectionChanged="FormBox_Changed"
             VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0">
-            <ComboBoxItem>
-                Circular
-            </ComboBoxItem>
-            <ComboBoxItem>
-                Square
-            </ComboBoxItem>
-            <ComboBoxItem>
-                Line
-            </ComboBoxItem>
-        </ComboBox>
+                <ComboBoxItem>
+                    Circular
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    Square
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    Line
+                </ComboBoxItem>
+            </ComboBox>
+
+            <ComboBox Margin="3" Height="20" SelectionChanged="ColorBox_Changed"
+            VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0">
+                <ComboBoxItem>
+                    Greyscale
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    Red Only
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    Green Only
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    Blue Only
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    Red Mixed
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    Green Mixed
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    Blue Mixed
+                </ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
         
         <Image Margin="30,60,30,30" x:Name="EncryptedImage"></Image>
     </Grid>

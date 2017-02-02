@@ -16,7 +16,8 @@ namespace BmpPwdTest {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
-        mrousavy.Cryptography.BmpPwd.DrawingScheme scheme = BmpPwd.DrawingScheme.Circular;
+        BmpPwd.DrawingScheme scheme = BmpPwd.DrawingScheme.Circular;
+        BmpPwd.ColorScheme colorScheme = BmpPwd.ColorScheme.Greyscale;
 
 
         public MainWindow() {
@@ -52,7 +53,7 @@ namespace BmpPwdTest {
             if(string.IsNullOrWhiteSpace(UnencryptedBox.Text))
                 return;
 
-            Bitmap encryptedBitmap = BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text, new Cipher(), scheme);
+            Bitmap encryptedBitmap = BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text, new Cipher(), scheme, colorScheme);
 
             //Convert Bitmap to ImageSource
             string outputFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "file.png");
@@ -70,20 +71,25 @@ namespace BmpPwdTest {
             string enc = c.Encrypt("MyPassword", UnencryptedBox.Text);
             string dec = c.Decrypt("MyPassword", enc);
 
-            MessageBox.Show("Decrypted: " + BmpPwd.Decrypt("MyPassword", encryptedBitmap, new Cipher(), scheme));
+            MessageBox.Show("Decrypted: " + BmpPwd.Decrypt("MyPassword", encryptedBitmap, new Cipher(), scheme, colorScheme));
         }
 
         private void SaveButton_OnClick(object sender, RoutedEventArgs e) {
             throw new NotImplementedException();
         }
 
-        private void ComboBox_Selected(object sender, RoutedEventArgs e) {
-        }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        private void FormBox_Changed(object sender, SelectionChangedEventArgs e) {
             try {
                 ComboBox cbox = sender as ComboBox;
                 scheme = (BmpPwd.DrawingScheme)Enum.Parse(typeof(BmpPwd.DrawingScheme), (cbox.SelectedItem as ComboBoxItem).Content as string);
+            } catch { }
+        }
+
+        private void ColorBox_Changed(object sender, SelectionChangedEventArgs e) {
+            try {
+                ComboBox cbox = sender as ComboBox;
+                colorScheme = (BmpPwd.ColorScheme)Enum.Parse(typeof(BmpPwd.ColorScheme), ((cbox.SelectedItem as ComboBoxItem).Content as string).Replace(" ", ""));
             } catch { }
         }
     }
