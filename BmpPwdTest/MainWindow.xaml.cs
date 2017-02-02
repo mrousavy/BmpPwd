@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -15,6 +16,9 @@ namespace BmpPwdTest {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+        mrousavy.Cryptography.BmpPwd.DrawingScheme scheme = BmpPwd.DrawingScheme.Circular;
+
+
         public MainWindow() {
             InitializeComponent();
 
@@ -48,7 +52,7 @@ namespace BmpPwdTest {
             if(string.IsNullOrWhiteSpace(UnencryptedBox.Text))
                 return;
 
-            Bitmap encryptedBitmap = BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text);
+            Bitmap encryptedBitmap = BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text, new Cipher(), scheme);
 
             //Convert Bitmap to ImageSource
             string outputFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "file.png");
@@ -66,11 +70,21 @@ namespace BmpPwdTest {
             string enc = c.Encrypt("MyPassword", UnencryptedBox.Text);
             string dec = c.Decrypt("MyPassword", enc);
 
-            MessageBox.Show("Decrypted: " + BmpPwd.Decrypt("MyPassword", encryptedBitmap));
+            MessageBox.Show("Decrypted: " + BmpPwd.Decrypt("MyPassword", encryptedBitmap, new Cipher(), scheme));
         }
 
         private void SaveButton_OnClick(object sender, RoutedEventArgs e) {
             throw new NotImplementedException();
+        }
+
+        private void ComboBox_Selected(object sender, RoutedEventArgs e) {
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            try {
+                ComboBox cbox = sender as ComboBox;
+                scheme = (BmpPwd.DrawingScheme)Enum.Parse(typeof(BmpPwd.DrawingScheme), (cbox.SelectedItem as ComboBoxItem).Content as string);
+            } catch { }
         }
     }
 }

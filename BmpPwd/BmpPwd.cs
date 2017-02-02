@@ -115,7 +115,7 @@ namespace mrousavy {
             private static void DrawCorrectScheme(Bitmap encryptedBitmap, DrawingScheme drawingScheme, byte[] asciiValues) {
                 //Initialize Graphics
                 using(Graphics gfx = Graphics.FromImage(encryptedBitmap)) {
-                    //Position in Bitmap
+                    //Position & Diameter of Bitmap
                     int position = 0;
                     int diameter = encryptedBitmap.Width;
 

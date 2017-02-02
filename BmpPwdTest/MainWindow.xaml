@@ -16,6 +16,18 @@
         <Button Margin="240,30,30,30" Height="20"
             VerticalAlignment="Top" HorizontalAlignment="Left"
             Click="SaveButton_OnClick">Save</Button>
+        <ComboBox Margin="275,30,30,30" Height="20" SelectionChanged="ComboBox_SelectionChanged"
+            VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0">
+            <ComboBoxItem>
+                Circular
+            </ComboBoxItem>
+            <ComboBoxItem>
+                Square
+            </ComboBoxItem>
+            <ComboBoxItem>
+                Line
+            </ComboBoxItem>
+        </ComboBox>
         
         <Image Margin="30,60,30,30" x:Name="EncryptedImage"></Image>
     </Grid>
