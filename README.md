@@ -37,7 +37,7 @@
    ```
 
 # Screenshots
-<img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Screenshot.png?raw=true">
-<img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Screenshots.gif?raw=true">
+<img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/password.png?raw=true" alt="The PW >password< in Rainbow/Square">
+<img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Screenshots.gif?raw=true" alt="Screenshots in a gif">
 
 # Thanks for using BmpPwd!
