@@ -7,7 +7,7 @@ namespace mrousavy {
 
     namespace Cryptography {
         /// <summary>
-        /// En/De-crypt Text to a Bitmap
+        /// Text and Bitmap Cryptography
         /// </summary>
         public static class BmpPwd {
             /// <summary>
@@ -21,8 +21,8 @@ namespace mrousavy {
             /// </summary>
             public enum ColorScheme { Greyscale, RedOnly, GreenOnly, BlueOnly, RedMixed, GreenMixed, BlueMixed }
 
-
-            #region Enccrypt
+            //Text & Bitmap Encryption
+            #region Encrypt
             /// <summary>
             /// Encrypt Text to a Bitmap with default Cipher Encryption
             /// </summary>
@@ -38,18 +38,20 @@ namespace mrousavy {
             /// </summary>
             /// <param name="salt">The salt used for the Encryption</param>
             /// <param name="unencryptedText">The original unencrypted Text</param>
-            /// <param name="cryptSchema">The Schema/Interface Used for Encryption</param>
+            /// <param name="cryptScheme">The Scheme/Interface Used for Encryption</param>
             /// <param name="drawingScheme">The <see cref="DrawingScheme"/> to use for Drawing the Image</param>
             /// <returns>The Encrypted Bitmap</returns>
             public static Bitmap Encrypt(
                 string salt,
                 string unencryptedText,
-                ICrypt cryptSchema,
+                ICrypt cryptScheme = null,
                 DrawingScheme drawingScheme = DrawingScheme.Line,
                 ColorScheme colorScheme = ColorScheme.RedMixed) {
+                if(cryptScheme == null)
+                    cryptScheme = new Cipher();
 
                 //Get the encrypted Text
-                string encryptedText = cryptSchema.Encrypt(salt, unencryptedText);
+                string encryptedText = cryptScheme.Encrypt(salt, unencryptedText);
 
                 //Set correct Width and Height values
                 int width = 0, height = 0;
@@ -68,6 +70,7 @@ namespace mrousavy {
             }
             #endregion
 
+            //Text & Bitmap Decryption
             #region Decrypt
             /// <summary>
             /// Decrypt a encrypted <see cref="Bitmap"/> to a <see cref="string"/>
@@ -90,9 +93,11 @@ namespace mrousavy {
             public static string Decrypt(
                 string salt,
                 Bitmap encryptedBitmap,
-                ICrypt cryptScheme,
+                ICrypt cryptScheme = null,
                 DrawingScheme drawingScheme = DrawingScheme.Line,
                 ColorScheme colorScheme = ColorScheme.RedMixed) {
+                if(cryptScheme == null)
+                    cryptScheme = new Cipher();
 
                 //Set Width and Y for Image Reading
                 int y = 0, width = 0;
@@ -120,7 +125,6 @@ namespace mrousavy {
                 return decrypted;
             }
             #endregion
-
 
             //Helpers for different Schemes or Configs
             #region Helpers
@@ -173,7 +177,6 @@ namespace mrousavy {
                     #endregion
                 }
             }
-
 
             /// <summary>
             /// Gets the correct <see cref="Color"/>
