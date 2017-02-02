@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
 
@@ -15,6 +16,11 @@ namespace mrousavy {
             /// </summary>
             public enum DrawingScheme { Line, Circular, Square }
 
+            /// <summary>
+            /// Color Scheme/Style for Image Drawing
+            /// </summary>
+            public enum ColorScheme { Greyscale, RedOnly, GreenOnly, BlueOnly, RedMixed, GreenMixed, BlueMixed }
+
 
             #region Enccrypt
             /// <summary>
@@ -24,7 +30,7 @@ namespace mrousavy {
             /// <param name="unencryptedText">The original unencrypted Text</param>
             /// <returns>The Encrypted Bitmap</returns>
             public static Bitmap Encrypt(string salt, string unencryptedText) {
-                return BmpPwd.Encrypt(salt, unencryptedText, new Cipher(), DrawingScheme.Line);
+                return BmpPwd.Encrypt(salt, unencryptedText, new Cipher());
             }
 
             /// <summary>
@@ -35,7 +41,13 @@ namespace mrousavy {
             /// <param name="cryptSchema">The Schema/Interface Used for Encryption</param>
             /// <param name="drawingScheme">The <see cref="DrawingScheme"/> to use for Drawing the Image</param>
             /// <returns>The Encrypted Bitmap</returns>
-            public static Bitmap Encrypt(string salt, string unencryptedText, ICrypt cryptSchema, DrawingScheme drawingScheme) {
+            public static Bitmap Encrypt(
+                string salt,
+                string unencryptedText,
+                ICrypt cryptSchema,
+                DrawingScheme drawingScheme = DrawingScheme.Line,
+                ColorScheme colorScheme = ColorScheme.RedMixed) {
+
                 //Get the encrypted Text
                 string encryptedText = cryptSchema.Encrypt(salt, unencryptedText);
 
@@ -50,7 +62,7 @@ namespace mrousavy {
                 byte[] asciiValues = Encoding.ASCII.GetBytes(encryptedText);
 
                 //Draw onto the Bitmap
-                DrawCorrectScheme(encryptedBitmap, drawingScheme, asciiValues);
+                DrawCorrectScheme(encryptedBitmap, drawingScheme, colorScheme, asciiValues);
 
                 return encryptedBitmap;
             }
@@ -75,13 +87,19 @@ namespace mrousavy {
             /// <param name="cryptScheme">The Scheme/Interface Used for Decryption</param>
             /// <param name="drawingScheme">The <see cref="DrawingScheme"/> to use for Drawing the Image</param>
             /// <returns>The decrypted Text from the Bitmap</returns>
-            public static string Decrypt(string salt, Bitmap encryptedBitmap, ICrypt cryptScheme, DrawingScheme drawingScheme) {
+            public static string Decrypt(
+                string salt,
+                Bitmap encryptedBitmap,
+                ICrypt cryptScheme,
+                DrawingScheme drawingScheme = DrawingScheme.Line,
+                ColorScheme colorScheme = ColorScheme.RedMixed) {
+
                 //Set Width and Y for Image Reading
                 int y = 0, width = 0;
                 SetWidthY(drawingScheme, ref y, ref width, encryptedBitmap.Width);
 
                 //Get all Colors from the Bitmap
-                Color[] colors = GetPixelsFromBitmap(width, y, drawingScheme, encryptedBitmap);
+                Color[] colors = GetPixelsFromBitmap(width, y, drawingScheme, colorScheme, encryptedBitmap);
 
                 //Fill ASCII Values with Color's R Value (R = G = B)
                 byte[] asciiValues = new byte[width];
@@ -112,19 +130,22 @@ namespace mrousavy {
             /// <param name="encryptedBitmap">The <see cref="Bitmap"/> to draw on</param>
             /// <param name="drawingScheme">The <see cref="DrawingScheme"/> to use for the drawing Process</param>
             /// <param name="asciiValues">All the ASCII values of the Text to draw</param>
-            private static void DrawCorrectScheme(Bitmap encryptedBitmap, DrawingScheme drawingScheme, byte[] asciiValues) {
+            private static void DrawCorrectScheme(Bitmap encryptedBitmap, DrawingScheme drawingScheme, ColorScheme colorScheme, byte[] asciiValues) {
                 //Initialize Graphics
                 using(Graphics gfx = Graphics.FromImage(encryptedBitmap)) {
                     //Position & Diameter of Bitmap
                     int position = 0;
                     int diameter = encryptedBitmap.Width;
 
+                    //For random Green & Blue
+                    Random random = new Random();
+
                     #region Drawing
                     //Loop through each Pixel
                     foreach(byte b in asciiValues) {
 
                         //Set Pixel to ASCII Values (change Color.FromArg() values for different colors)
-                        using(SolidBrush brush = new SolidBrush(Color.FromArgb(b * 2, 0, 0))) {
+                        using(SolidBrush brush = new SolidBrush(Color.FromArgb(b * 2, random.Next(0, 255), random.Next(0, 255)))) {
                             using(Pen pen = new Pen(brush, 2)) {
                                 //Draw different Schemes
                                 switch(drawingScheme) {
@@ -225,7 +246,7 @@ namespace mrousavy {
             /// <param name="drawingScheme">The <see cref="DrawingScheme"/> to read</param>
             /// <param name="encryptedBitmap">The <see cref="Bitmap"/> to read from</param>
             /// <returns>The filled <see cref="Color[]"/></returns>
-            private static Color[] GetPixelsFromBitmap(int width, int y, DrawingScheme drawingScheme, Bitmap encryptedBitmap) {
+            private static Color[] GetPixelsFromBitmap(int width, int y, DrawingScheme drawingScheme, ColorScheme colorScheme, Bitmap encryptedBitmap) {
                 //Get all Pixels from Bitmap
                 Color[] colors = new Color[width];
                 for(int i = 0; i < width; i++) {
