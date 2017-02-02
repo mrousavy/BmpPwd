@@ -1,4 +1,7 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 namespace mrousavy {
 
@@ -25,14 +28,27 @@ namespace mrousavy {
             /// <param name="cryptSchema">The Schema/Interface Used for Encryption</param>
             /// <returns>The Encrypted Bitmap</returns>
             public static Bitmap Encrypt(string salt, string unencryptedText, ICrypt cryptSchema) {
-                Bitmap encrypted;
+                //Get the encrypted Text
+                string encryptedText = cryptSchema.Encrypt(salt, unencryptedText);
+
+                //Bitmap should be a Square -> Width&Height = Sqrt from total Pixels
+                int length = (int)Math.Sqrt(encryptedText.Length);
+
+                //Create Bitmap with correct Sizes
+                Bitmap encryptedBitmap = new Bitmap(length, length);
+
+                char[] characters = encryptedText.ToCharArray();
+                IEnumerable<int> asciiEnum = characters.Select(c => (int)c);
+                List<int> asciiValues = new List<int>(asciiEnum);
 
 
 
-                return null;
+                return encryptedBitmap;
             }
 
 
+
+            //TODO: Decrypt
         }
     }
 }
