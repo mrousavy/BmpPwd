@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
 
@@ -44,8 +45,11 @@ namespace mrousavy {
 
                     //Loop through each Pixel
                     foreach(byte b in asciiValues) {
-                        //Set Pixel to ASCII Values
-                        using(SolidBrush brush = new SolidBrush(Color.FromArgb(b, b, b))) {
+                        if(b > 255)
+                            throw new Exception("ASCII value is too high for Pixel!");
+
+                        //Set Pixel to ASCII Values (change Color.FromArg() values for different colors)
+                        using(SolidBrush brush = new SolidBrush(Color.FromArgb(b * 2, 0, 0))) {
                             gfx.FillRectangle(brush, position, 0, 1, 1);
                         }
                         position++;
@@ -84,7 +88,7 @@ namespace mrousavy {
                 //Fill ASCII Values with Color's R Value (R = G = B)
                 byte[] asciiValues = new byte[encryptedBitmap.Width];
                 for(int i = 0; i < encryptedBitmap.Width; i++) {
-                    asciiValues[i] = colors[i].R;
+                    asciiValues[i] = (byte)(colors[i].R / 2);
                 }
 
                 //Fill Char[] with the ASCII Value
@@ -93,9 +97,12 @@ namespace mrousavy {
                     chars[i] = (char)asciiValues[i];
                 }
 
-                return new string(chars);
-            }
+                //Decrypt result
+                string decrypted = new string(chars);
+                decrypted = cryptSchema.Decrypt(salt, decrypted);
 
+                return decrypted;
+            }
             #endregion
         }
     }

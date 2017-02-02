@@ -12,7 +12,10 @@
                  Margin="30" KeyDown="UnencryptedBox_OnKeyDown"></TextBox>
         <Button Margin="190,30,30,30" Height="20"
             VerticalAlignment="Top" HorizontalAlignment="Left"
-            Click="ButtonBase_OnClick">Encrypt</Button>
+            Click="EncryptButton_OnClick">Encrypt</Button>
+        <Button Margin="240,30,30,30" Height="20"
+            VerticalAlignment="Top" HorizontalAlignment="Left"
+            Click="SaveButton_OnClick">Save</Button>
         
         <Image Margin="30,60,30,30" x:Name="EncryptedImage"></Image>
     </Grid>

@@ -7,7 +7,7 @@ using System.Text;
 namespace mrousavy {
     namespace Cryptography {
         /// <summary>
-        /// En/De-crypt Text with Passphrases
+        /// Example of <see cref="ICrypt"/> (Cipher En/De-crypt Text with Passphrases)
         /// </summary>
         public class Cipher : ICrypt {
             private const int Keysize = 256;
@@ -16,14 +16,14 @@ namespace mrousavy {
             /// <summary>
             /// Encrypt a Text
             /// </summary>
-            /// <param name="plainText">The text to Encrypt</param>
-            /// <param name="passPhrase">Salt for encryption</param>
+            /// <param name="unencryptedText">The text to Encrypt</param>
+            /// <param name="salt">Salt for encryption</param>
             /// <returns>Encrypted Text</returns>
-            public string Encrypt(string plainText, string passPhrase) {
+            public string Encrypt(string salt, string unencryptedText) {
                 var saltStringBytes = Generate256BitsOfRandomEntropy();
                 var ivStringBytes = Generate256BitsOfRandomEntropy();
-                var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-                using(var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations)) {
+                var plainTextBytes = Encoding.UTF8.GetBytes(unencryptedText);
+                using(var password = new Rfc2898DeriveBytes(salt, saltStringBytes, DerivationIterations)) {
                     var keyBytes = password.GetBytes(Keysize / 8);
                     using(var symmetricKey = new RijndaelManaged()) {
                         symmetricKey.BlockSize = 256;
@@ -50,16 +50,16 @@ namespace mrousavy {
             /// <summary>
             /// Decrypt a Text
             /// </summary>
-            /// <param name="cipherText">The text to Decrypt</param>
-            /// <param name="passPhrase">Salt for decryption</param>
+            /// <param name="encryptedText">The text to Decrypt</param>
+            /// <param name="salt">Salt for decryption</param>
             /// <returns>Decrypted Text</returns>
-            public string Decrypt(string cipherText, string passPhrase) {
-                var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(cipherText);
+            public string Decrypt(string salt, string encryptedText) {
+                var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(encryptedText);
                 var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(Keysize / 8).ToArray();
                 var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8).Take(Keysize / 8).ToArray();
                 var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((Keysize / 8) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((Keysize / 8) * 2)).ToArray();
 
-                using(var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations)) {
+                using(var password = new Rfc2898DeriveBytes(salt, saltStringBytes, DerivationIterations)) {
                     var keyBytes = password.GetBytes(Keysize / 8);
                     using(var symmetricKey = new RijndaelManaged()) {
                         symmetricKey.BlockSize = 256;

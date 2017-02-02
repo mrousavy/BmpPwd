@@ -15,9 +15,11 @@ namespace BmpPwdTest {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+
+            UnencryptedBox.Focus();
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e) {
+        private void EncryptButton_OnClick(object sender, RoutedEventArgs e) {
             Encrypt();
         }
 
@@ -46,7 +48,7 @@ namespace BmpPwdTest {
 
             Bitmap encryptedBitmap = BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text);
 
-
+            //Convert Bitmap to ImageSource
             string outputFileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "file.png");
             using(MemoryStream memory = new MemoryStream()) {
                 using(FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.ReadWrite)) {
@@ -58,9 +60,15 @@ namespace BmpPwdTest {
                 }
             }
 
+            mrousavy.Cryptography.Cipher c = new Cipher();
+            string enc = c.Encrypt("MyPassword", UnencryptedBox.Text);
+            string dec = c.Decrypt("MyPassword", enc);
 
+            MessageBox.Show("Decrypted: " + BmpPwd.Decrypt("MyPassword", encryptedBitmap));
+        }
 
-            MessageBox.Show(BmpPwd.Decrypt("MyPassword", encryptedBitmap));
+        private void SaveButton_OnClick(object sender, RoutedEventArgs e) {
+            throw new NotImplementedException();
         }
     }
 }
