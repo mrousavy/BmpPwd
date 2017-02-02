@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
+using System.Text;
 
 namespace mrousavy {
 
@@ -37,11 +36,23 @@ namespace mrousavy {
                 //Create Bitmap with correct Sizes
                 Bitmap encryptedBitmap = new Bitmap(length, length);
 
-                char[] characters = encryptedText.ToCharArray();
-                IEnumerable<int> asciiEnum = characters.Select(c => (int)c);
-                List<int> asciiValues = new List<int>(asciiEnum);
+                //Get all ASCII values
+                byte[] asciiValues = Encoding.ASCII.GetBytes(encryptedText);
 
+                using(Graphics gfx = Graphics.FromImage(encryptedBitmap)) {
 
+                    int position = 0;
+
+                    foreach(byte b in asciiValues) {
+                        if(position > length)
+                            position = 0;
+
+                        using(SolidBrush brush = new SolidBrush(Color.FromArgb(b))) {
+                            gfx.FillRectangle(brush, 0, 0, 1, 1);
+                        }
+                        position++;
+                    }
+                }
 
                 return encryptedBitmap;
             }
