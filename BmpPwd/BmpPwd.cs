@@ -53,15 +53,15 @@ namespace mrousavy {
                 //Get the encrypted Text
                 string encryptedText = cryptScheme.Encrypt(salt, unencryptedText);
 
+                //Get all ASCII values
+                byte[] asciiValues = Encoding.Unicode.GetBytes(encryptedText);
+
                 //Set correct Width and Height values
                 int width = 0, height = 0;
-                SetWidthHeight(drawingScheme, ref height, ref width, encryptedText.Length);
+                SetWidthHeight(drawingScheme, ref height, ref width, asciiValues.Length);
 
                 //Create Bitmap with correct Sizes
                 Bitmap encryptedBitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-
-                //Get all ASCII values
-                byte[] asciiValues = Encoding.ASCII.GetBytes(encryptedText);
 
                 //Draw onto the Bitmap
                 DrawCorrectScheme(encryptedBitmap, drawingScheme, colorScheme, asciiValues);
@@ -109,17 +109,11 @@ namespace mrousavy {
                 //Fill ASCII Values with Color's R Value (R = G = B)
                 byte[] asciiValues = new byte[width];
                 for(int i = 0; i < width; i++) {
-                    asciiValues[i] = (byte)(GetAsciiValue(colorScheme, colors[i]) / 2);
-                }
-
-                //Fill Char[] with the ASCII Value
-                char[] chars = new char[width];
-                for(int i = 0; i < width; i++) {
-                    chars[i] = (char)asciiValues[i];
+                    asciiValues[i] = GetAsciiValue(colorScheme, colors[i]);
                 }
 
                 //Decrypt result
-                string decrypted = new string(chars);
+                string decrypted = Encoding.Unicode.GetString(asciiValues);
                 decrypted = cryptScheme.Decrypt(salt, decrypted);
 
                 return decrypted;
@@ -149,7 +143,7 @@ namespace mrousavy {
                     foreach(byte b in asciiValues) {
 
                         //The correct color used for drawing (b * 2 because b's max value is 128)
-                        Color color = GetColor(colorScheme, (byte)(b * 2));
+                        Color color = GetColor(colorScheme, b);
 
                         //Set Pixel to ASCII Values (change Color.FromArg() values for different colors)
                         using(SolidBrush brush = new SolidBrush(color)) {
@@ -158,7 +152,7 @@ namespace mrousavy {
                                 switch(drawingScheme) {
                                     case DrawingScheme.Circular:
                                         //Circular has dynamic height -> y = height/2
-                                        gfx.DrawEllipse(pen, position, position, diameter, diameter);
+                                        gfx.FillEllipse(brush, position, position, diameter, diameter);
                                         break;
                                     case DrawingScheme.Line:
                                         //Line has only 1 Pixel Height -> y = 0

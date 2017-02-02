@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BmpPwdTest"
-        mc:Ignorable="d" Icon="Logo.ico"
-        Title="BmpPwd Demo" Height="350" Width="525">
+        mc:Ignorable="d" Icon="Logo.ico" Height="350" Width="525"
+        Title="BmpPwd Demo" MinHeight="350" MinWidth="525">
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10,10,10,0"
