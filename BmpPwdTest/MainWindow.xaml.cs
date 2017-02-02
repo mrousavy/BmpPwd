@@ -34,7 +34,7 @@ namespace BmpPwdTest {
             biImg.StreamSource = ms;
             biImg.EndInit();
 
-            ImageSource imgSrc = (ImageSource)biImg;
+            ImageSource imgSrc = biImg;
 
             return imgSrc;
         }
@@ -57,6 +57,10 @@ namespace BmpPwdTest {
                     EncryptedImage.Source = ByteToImage(bytes);
                 }
             }
+
+
+
+            MessageBox.Show(BmpPwd.Decrypt("MyPassword", encryptedBitmap));
         }
     }
 }

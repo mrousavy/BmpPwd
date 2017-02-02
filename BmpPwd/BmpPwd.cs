@@ -93,7 +93,7 @@ namespace mrousavy {
                     chars[i] = (char)asciiValues[i];
                 }
 
-                return chars.ToString();
+                return new string(chars);
             }
 
             #endregion
