@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BmpPwd.cs" />
+    <Compile Include="Cipher.cs" />
     <Compile Include="ICrypt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

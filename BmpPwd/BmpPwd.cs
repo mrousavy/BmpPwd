@@ -21,18 +21,5 @@ namespace mrousavy {
 
 
         }
-
-
-        /// <summary>
-        /// En/De-crypt Text with Passphrases
-        /// </summary>
-        public class Cipher : ICrypt {
-            public string Encrypt(string Passphrase, string UnencryptedText) {
-
-            }
-            public string Decrypt(string Passphrase, string EncryptedText) {
-
-            }
-        }
     }
 }
