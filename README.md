@@ -20,7 +20,7 @@
 
 ### 3. Encrypt a string
    ```C#
-   //Reference to System.Drawing dll has to be added
+   //Needs Reference to System.Drawing dll
    System.Drawing.Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
    ```
    
