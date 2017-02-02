@@ -1,5 +1,5 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
+using System.Drawing.Imaging;
 using System.Text;
 
 namespace mrousavy {
@@ -30,25 +30,22 @@ namespace mrousavy {
                 //Get the encrypted Text
                 string encryptedText = cryptSchema.Encrypt(salt, unencryptedText);
 
-                //Bitmap should be a Square -> Width&Height = Sqrt from total Pixels
-                int length = (int)Math.Sqrt(encryptedText.Length);
-
                 //Create Bitmap with correct Sizes
-                Bitmap encryptedBitmap = new Bitmap(length, length);
+                Bitmap encryptedBitmap = new Bitmap(encryptedText.Length, 1, PixelFormat.Format32bppArgb);
 
                 //Get all ASCII values
                 byte[] asciiValues = Encoding.ASCII.GetBytes(encryptedText);
 
+                //Initialize Graphics
                 using(Graphics gfx = Graphics.FromImage(encryptedBitmap)) {
-
+                    //Position in Bitmap
                     int position = 0;
 
+                    //Loop through each Pixel
                     foreach(byte b in asciiValues) {
-                        if(position > length)
-                            position = 0;
-
-                        using(SolidBrush brush = new SolidBrush(Color.FromArgb(b))) {
-                            gfx.FillRectangle(brush, 0, 0, 1, 1);
+                        //Set Pixel to ASCII Values
+                        using(SolidBrush brush = new SolidBrush(Color.FromArgb(b, b, b))) {
+                            gfx.FillRectangle(brush, position, 0, 1, 1);
                         }
                         position++;
                     }
