@@ -14,13 +14,11 @@
       2. Add the .dll to your Project   (Right click `References` in the Project Tree View, click `Add References` and `Browse` to the `.dll` File)
 
 ### 2. Add the reference
-   * C# (using)
    ```C#
    using mrousavy.Cryptography;
    ```
 
 ### 3. Encrypt a string
-   * C#
    ```C#
    Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
    ```
