@@ -42,8 +42,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BmpPwd, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\BmpPwd.1.0.0.4\lib\BmpPwd.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BmpPwd\bin\Debug\BmpPwd.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

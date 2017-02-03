@@ -10,6 +10,8 @@ namespace mrousavy {
         /// Text and Bitmap Cryptography
         /// </summary>
         public static class BmpPwd {
+            public static Random random = new Random();
+
             /// <summary>
             /// Drawing Scheme/Style for Image Drawing
             /// (Use <see cref="DrawingScheme.Line"/> for faster encryption and minimal storage usage)
@@ -79,7 +81,7 @@ namespace mrousavy {
             /// <param name="encryptedBitmap">The <see cref="BmpPwd"/> Encrypted <see cref="Bitmap"/></param>
             /// <returns>The decrypted Text from the Bitmap</returns>
             public static string Decrypt(string salt, Bitmap encryptedBitmap) {
-                return BmpPwd.Decrypt(salt, encryptedBitmap, new Cipher(), DrawingScheme.Line);
+                return Decrypt(salt, encryptedBitmap, new Cipher(), DrawingScheme.Line);
             }
 
             /// <summary>
@@ -147,22 +149,20 @@ namespace mrousavy {
 
                         //Set Pixel to ASCII Values (change Color.FromArg() values for different colors)
                         using(SolidBrush brush = new SolidBrush(color)) {
-                            using(Pen pen = new Pen(brush, 2)) {
-                                //Draw different Schemes
-                                switch(drawingScheme) {
-                                    case DrawingScheme.Circular:
-                                        //Circular has dynamic height -> y = height/2
-                                        gfx.FillEllipse(brush, position, position, diameter, diameter);
-                                        break;
-                                    case DrawingScheme.Line:
-                                        //Line has only 1 Pixel Height -> y = 0
-                                        gfx.FillRectangle(brush, position, 0, 1, 1);
-                                        break;
-                                    case DrawingScheme.Square:
-                                        //Square has dynamic height -> y = height/2
-                                        gfx.FillRectangle(brush, position, position, diameter, diameter);
-                                        break;
-                                }
+                            //Draw different Schemes
+                            switch(drawingScheme) {
+                                case DrawingScheme.Circular:
+                                    //Circular has dynamic height -> y = height/2
+                                    gfx.FillEllipse(brush, position, position, diameter, diameter);
+                                    break;
+                                case DrawingScheme.Line:
+                                    //Line has only 1 Pixel Height -> y = 0
+                                    gfx.FillRectangle(brush, position, 0, 1, 1);
+                                    break;
+                                case DrawingScheme.Square:
+                                    //Square has dynamic height -> y = height/2
+                                    gfx.FillRectangle(brush, position, position, diameter, diameter);
+                                    break;
                             }
                         }
                         position++;
@@ -180,11 +180,11 @@ namespace mrousavy {
             /// <returns>The correct <see cref="Color"/></returns>
             private static Color GetColor(ColorScheme colorScheme, byte b) {
                 //For Mixed Colors
-                Random random = new Random();
-                int rnd1 = random.Next(0, 128);
-                int rnd2 = random.Next(0, 128);
+                int rnd1 = random.Next(0, b);
+                int rnd2 = random.Next(0, b);
                 int rainbow1 = random.Next(0, 255);
                 int rainbow2 = random.Next(0, 255);
+                int rainbow3 = random.Next(0, 255);
 
                 switch(colorScheme) {
                     case ColorScheme.Greyscale:
@@ -202,7 +202,7 @@ namespace mrousavy {
                     case ColorScheme.BlueMixed:
                         return Color.FromArgb(rnd1, rnd2, b);
                     case ColorScheme.Rainbow:
-                        return Color.FromArgb(b, rainbow1, rainbow2);
+                        return Color.FromArgb(b, rainbow2, rainbow3);
                     default:
                         return Color.FromArgb(b, b, b);
                 }
@@ -250,7 +250,7 @@ namespace mrousavy {
                     case DrawingScheme.Circular:
                         //Circular has radius of textlength -> width = Bitmap.Width / 2
                         width = imageWidth / 2;
-                        y = (imageWidth / 2) - 1;
+                        y = (imageWidth / 2);
                         break;
                     case DrawingScheme.Square:
                         //Square has dynamic height -> width = Bitmap.Width / 2
