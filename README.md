@@ -19,6 +19,7 @@
    ```
 
 ### 3. Encrypt a string
+(Do not lossy-compress the Image!)
    ```C#
    //Needs Reference to System.Drawing dll
    System.Drawing.Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
