@@ -2,8 +2,16 @@
 **BmpPwd** is a _Class Library_ for **en/decrypting** Text and visualizing it with a **System.Drawing.Bitmap**
 
 Applications like [LaZagne](https://github.com/AlessandroZ/LaZagne) can easily find stored **(and encrypted)** Passwords from various Applications. To prevent this, **BmpPwd** will convert your Text with your En/Decryption Algorithm of choice _(Default: Cipher)_ to a _System.Drawing.Image_ which contains your Text.
-To get the _decrypted Text_ from the Image File, a Program must know:
+
+To decrypt a **normally Encrypted Text**, a Program must know:
+   * Location of the stored Text File
+   * En/Decryption Algorithm
+   * Pass-Phrase/Salt for En/Decryption Algorithm
+
+To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    * Location of the stored Image
+   * BmpPwd Encryption Shape/Drawing Scheme
+   * BmpPwd Encryption Color Scheme
    * BmpPwd Decryption Method
    * En/Decryption Algorithm _(Default: Cipher)_
    * Pass-Phrase/Salt for En/Decryption Algorithm
