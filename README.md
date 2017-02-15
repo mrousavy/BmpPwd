@@ -29,16 +29,29 @@
    * C#:
    ```C#
    //Needs Reference to System.Drawing dll
-   System.Drawing.Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
+   System.Drawing.Bitmap encryptedBitmap = BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
    ```
    
    * VB:
    ```VB
    //Needs Reference to System.Drawing dll
-   Dim result As System.Drawing.Bitmap = BmpPwd.Encrypt("MyPassword", "The string to be encrypted")
+   Dim encryptedBitmap As System.Drawing.Bitmap = BmpPwd.Encrypt("MyPassword", "The string to be encrypted")
    ```
    
-### 4. Import your own Encryption
+### 4. Decrypt an Image
+   * C#:
+   ```C#
+   //Needs Reference to System.Drawing dll
+   string decryptedText = BmpPwd.Decrypt("MyPassword", encryptedBitmap);
+   ```
+   
+   * VB:
+   ```VB
+   //Needs Reference to System.Drawing dll
+   Dim decryptedText As String = BmpPwd.Decrypt("MyPassword", encryptedBitmap)
+   ```
+   
+### 5. Import your own Encryption
    * C#:
    ```C#
    public class MyCryptoClass : ICrypto {
@@ -54,15 +67,15 @@
    End Class
    ```
 
-### 5. Use custom Parameters:
+### 6. Use custom Parameters:
    * C#:
    ```C#
-   System.Drawing.Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted", new MyCryptoClass(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.BlueMixed);
+   System.Drawing.Bitmap encryptedBitmap = BmpPwd.Encrypt("MyPassword", "The string to be encrypted", new MyCryptoClass(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.BlueMixed);
    ```
    
    * VB:
    ```VB
-   Dim result As System.Drawing.Bitmap = BmpPwd.Encrypt("MyPassword", "The string to be encrypted", new MyCryptoClass(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.BlueMixed)
+   Dim encryptedBitmap As System.Drawing.Bitmap = BmpPwd.Encrypt("MyPassword", "The string to be encrypted", new MyCryptoClass(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.BlueMixed)
    ```
 
 # Screenshots
