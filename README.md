@@ -51,7 +51,7 @@
    Public Class MyCryptoClass
       Implements ICrypto
         ...
-   End MyCryptoClass
+   End Class
    ```
 
 ### 5. Use custom Parameters:
