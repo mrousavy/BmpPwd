@@ -11,6 +11,8 @@
     <link rel="icon" type="image/ico" href="https://github.com/mrousavy/BmpPwd/blob/master/Images/Logo.png?raw=true"/>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
     <section class="page-header">
@@ -45,8 +47,11 @@ To decrypt a <strong>BmpPwd-Encrypted Image</strong>, a Program must know:
 
 <h1 id="how-to-use">How to use</h1>
 
-<div data-role="collapsible">
+<div class="container">
       
+<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Show/Hide</button>
+<br/>
+  
 <h3 id="add-binaries">1. Add Binaries</h3>
 <ul>
   <li>NuGet
