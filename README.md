@@ -1,6 +1,8 @@
 # <img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Logo.png?raw=true" width="42"> BmpPwd
 **BmpPwd** is a _Class Library_ for **en/decrypting** Text and visualizing it with a **System.Drawing.Bitmap**
 
+Applications like [LaZagne](https://github.com/AlessandroZ/LaZagne) can easily find stored **(and encrypted)** Passwords from various Applications. To prevent this, **BmpPwd** will convert your Text with your En/Decryption Algorithm of choice _(Default: Cipher)_ to an Image which contains your Text.
+
 [Download the Demo (.zip)](https://github.com/mrousavy/BmpPwd/releases/download/1.0.0.5/BmpPwdTest.zip)
 
 # How to use
