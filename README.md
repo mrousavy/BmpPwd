@@ -14,27 +14,55 @@
       2. Add the .dll to your Project   (Right click `References` in the Project Tree View, click `Add References` and `Browse` to the `.dll` File)
 
 ### 2. Add the reference
+   * C#:
    ```C#
    using mrousavy.Cryptography;
+   ```
+   
+   * VB:
+   ```VB
+   Imports mrousavy.Cryptography
    ```
 
 ### 3. Encrypt a string
 (Do not lossy-compress the Image!)
+   * C#:
    ```C#
    //Needs Reference to System.Drawing dll
    System.Drawing.Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
    ```
    
+   * VB:
+   ```VB
+   //Needs Reference to System.Drawing dll
+   Dim result As System.Drawing.Bitmap = BmpPwd.Encrypt("MyPassword", "The string to be encrypted")
+   ```
+   
 ### 4. Import your own Encryption
+   * C#:
    ```C#
-   public class MyCryptoClass : ICrypto{
+   public class MyCryptoClass : ICrypto {
         ...
    }
    ```
+   
+   * VB:
+   ```VB
+   Public Class MyCryptoClass
+      Implements ICrypto
+        ...
+   End MyCryptoClass
+   ```
 
 ### 5. Use custom Parameters:
+   * C#:
    ```C#
    System.Drawing.Bitmap result = BmpPwd.Encrypt("MyPassword", "The string to be encrypted", new MyCryptoClass(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.BlueMixed);
+   ```
+   
+   * VB:
+   ```VB
+   Dim result As System.Drawing.Bitmap = BmpPwd.Encrypt("MyPassword", "The string to be encrypted", new MyCryptoClass(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.BlueMixed)
    ```
 
 # Screenshots
