@@ -11,6 +11,8 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    * En/Decryption Algorithm _(Default: Cipher)_
    * Pass-Phrase/Salt for En/Decryption Algorithm
 
+Please note that there will be a slight performance loss because of the Image creation.
+   
 [Download the Demo (.zip)](https://github.com/mrousavy/BmpPwd/releases/download/1.0.0.5/BmpPwdTest.zip)
 
 # How to use
@@ -44,7 +46,7 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    
    * VB:
    ```VB
-   //Needs Reference to System.Drawing dll
+   ' Needs Reference to System.Drawing dll
    Dim encryptedBitmap As System.Drawing.Bitmap = BmpPwd.Encrypt("MyPassword", "The string to be encrypted")
    ```
    
@@ -57,7 +59,7 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    
    * VB:
    ```VB
-   //Needs Reference to System.Drawing dll
+   ' Needs Reference to System.Drawing dll
    Dim decryptedText As String = BmpPwd.Decrypt("MyPassword", encryptedBitmap)
    ```
    
@@ -65,15 +67,15 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    * C#:
    ```C#
    public class MyCryptoClass : ICrypto {
-        ...
+       ...
    }
    ```
    
    * VB:
    ```VB
    Public Class MyCryptoClass
-      Implements ICrypto
-        ...
+       Implements ICrypto
+           ...
    End Class
    ```
 
