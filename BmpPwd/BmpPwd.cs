@@ -46,7 +46,7 @@ namespace mrousavy {
             public static Bitmap Encrypt(
                 string salt,
                 string unencryptedText,
-                ICrypt cryptScheme = null,
+                ICrypt cryptScheme,
                 DrawingScheme drawingScheme = DrawingScheme.Line,
                 ColorScheme colorScheme = ColorScheme.RedMixed) {
                 if (cryptScheme == null)
@@ -95,7 +95,7 @@ namespace mrousavy {
             public static string Decrypt(
                 string salt,
                 Bitmap encryptedBitmap,
-                ICrypt cryptScheme = null,
+                ICrypt cryptScheme,
                 DrawingScheme drawingScheme = DrawingScheme.Line,
                 ColorScheme colorScheme = ColorScheme.RedMixed) {
                 if (cryptScheme == null)

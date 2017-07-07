@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BmpPwd", "BmpPwd\BmpPwd.csproj", "{FC70C437-5EF6-43B2-AA3E-B354DC354F50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BmpPwdTest", "BmpPwdTest\BmpPwdTest.csproj", "{05E0F7A7-FA11-49FF-88A8-B7EF5029E70A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BmpPwdDemo", "BmpPwdTest\BmpPwdDemo.csproj", "{05E0F7A7-FA11-49FF-88A8-B7EF5029E70A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BmpPwdTests", "BmpPwdTests\BmpPwdTests.csproj", "{CE1B67CF-0F1B-4274-8F29-EC457999F122}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{05E0F7A7-FA11-49FF-88A8-B7EF5029E70A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05E0F7A7-FA11-49FF-88A8-B7EF5029E70A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05E0F7A7-FA11-49FF-88A8-B7EF5029E70A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE1B67CF-0F1B-4274-8F29-EC457999F122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE1B67CF-0F1B-4274-8F29-EC457999F122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE1B67CF-0F1B-4274-8F29-EC457999F122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE1B67CF-0F1B-4274-8F29-EC457999F122}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

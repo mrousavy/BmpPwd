@@ -12,7 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace BmpPwdTest {
+namespace BmpPwdDemo {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
