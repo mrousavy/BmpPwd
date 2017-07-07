@@ -1,5 +1,8 @@
 ﻿namespace mrousavy {
     namespace Cryptography {
+        /// <summary>
+        /// Cryptography interface
+        /// </summary>
         public interface ICrypt {
             /// <summary>
             /// Encrypt Text
