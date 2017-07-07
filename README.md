@@ -10,8 +10,6 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    * BmpPwd Decryption Method
    * En/Decryption Algorithm _(Default: Cipher)_
    * Pass-Phrase/Salt for En/Decryption Algorithm
-
-Please note that there will be a slight performance loss because of the Image creation.
    
 [Download the Demo (.zip)](https://github.com/mrousavy/BmpPwd/releases/download/1.0.0.5/BmpPwdTest.zip)
 
@@ -95,5 +93,13 @@ Please note that there will be a slight performance loss because of the Image cr
 
 
 <img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/password.png?raw=true" alt="The Password 'password' in Rainbow/Square">
+
+# See also
+## Performance Benchmark
+<img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Benchmark.png?raw=true" alt="Benchmark (BmpPwd: 23ms | Normal Text: 16ms)">
+
+## Lossy compression
+Do **not** lossy-compress the encrypted Bitmap or chances are the Bitmap can't get decrypted again. If you want to save the Image, do not use `.jpg`.
+
 
 # Thanks for using BmpPwd!
