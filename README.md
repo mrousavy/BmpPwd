@@ -109,6 +109,9 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
 # See also
 ## Performance Benchmark
 <img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Benchmark.png?raw=true" alt="Benchmark (BmpPwd: 23ms | Normal Text: 16ms)">
+**BmpPwd** does perform nearly as good as normal **Cipher string encryption**.
+
+Use `Line` if you care about small performance benefits.
 
 ## Lossy compression
 Do **not** lossy-compress the encrypted Bitmap or chances are the Bitmap can't get decrypted again. If you want to save the Image, do not use `.jpg`.
