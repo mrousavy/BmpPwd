@@ -1,6 +1,8 @@
 # <img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Logo.png?raw=true" width="42"> BmpPwd
 **BmpPwd** is a _Class Library_ for **en/decrypting** Text and visualizing it with a **System.Drawing.Bitmap**
 
+[![NuGet](https://img.shields.io/nuget/dt/BmpPwd.svg)](https://www.nuget.org/packages/BmpPwd/)
+
 Applications like [LaZagne](https://github.com/AlessandroZ/LaZagne) can easily find stored **(and encrypted)** Passwords from various Applications. To prevent this, **BmpPwd** will convert your Text with your En/Decryption Algorithm of choice _(Default: Cipher)_ to a _System.Drawing.Image_ which contains your Text.
 
 To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
