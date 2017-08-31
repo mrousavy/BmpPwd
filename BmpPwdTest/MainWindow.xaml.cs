@@ -53,7 +53,7 @@ namespace BmpPwdDemo {
             if (string.IsNullOrWhiteSpace(UnencryptedBox.Text))
                 return;
 
-            Bitmap encryptedBitmap = BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text, new Cipher(), scheme, colorScheme);
+            var encryptedBitmap = BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text, new Cipher(), scheme, colorScheme);
 
             //Convert Bitmap to ImageSource
             using (MemoryStream memory = new MemoryStream()) {
@@ -65,15 +65,13 @@ namespace BmpPwdDemo {
 
         private void SaveButton_OnClick(object sender, RoutedEventArgs e) {
             try {
-                string path;
-
                 SaveFileDialog sfd = new SaveFileDialog() {
                     Filter = "Image files (*.png)|*.png",
                     FilterIndex = 2,
                     RestoreDirectory = true
                 };
                 if (sfd.ShowDialog() == true) {
-                    path = sfd.FileName;
+                    string path = sfd.FileName;
 
                     PngBitmapEncoder encoder = new PngBitmapEncoder();
                     encoder.Frames.Add(BitmapFrame.Create((BitmapSource)EncryptedImage.Source));

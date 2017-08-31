@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using mrousavy.Cryptography;
-using System.Drawing;
 
 namespace BmpPwdTests {
     /// <summary>
@@ -14,7 +13,7 @@ namespace BmpPwdTests {
 
         [TestMethod]
         public void TestBmpPwdLine() {
-            Bitmap encrypted = BmpPwd.Encrypt(Salt, Text, new Cipher(), BmpPwd.DrawingScheme.Line, BmpPwd.ColorScheme.Rainbow);
+            var encrypted = BmpPwd.Encrypt(Salt, Text, new Cipher(), BmpPwd.DrawingScheme.Line, BmpPwd.ColorScheme.Rainbow);
             string decrypted = BmpPwd.Decrypt(Salt, encrypted, new Cipher(), BmpPwd.DrawingScheme.Line, BmpPwd.ColorScheme.Rainbow);
 
             Assert.AreEqual(Text, decrypted);
@@ -22,7 +21,7 @@ namespace BmpPwdTests {
 
         [TestMethod]
         public void TestBmpPwdCircle() {
-            Bitmap encrypted = BmpPwd.Encrypt(Salt, Text, new Cipher(), BmpPwd.DrawingScheme.Circular, BmpPwd.ColorScheme.Rainbow);
+            var encrypted = BmpPwd.Encrypt(Salt, Text, new Cipher(), BmpPwd.DrawingScheme.Circular, BmpPwd.ColorScheme.Rainbow);
             string decrypted = BmpPwd.Decrypt(Salt, encrypted, new Cipher(), BmpPwd.DrawingScheme.Circular, BmpPwd.ColorScheme.Rainbow);
 
             Assert.AreEqual(Text, decrypted);
@@ -30,7 +29,7 @@ namespace BmpPwdTests {
 
         [TestMethod]
         public void TestBmpPwdSquare() {
-            Bitmap encrypted = BmpPwd.Encrypt(Salt, Text, new Cipher(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.Rainbow);
+            var encrypted = BmpPwd.Encrypt(Salt, Text, new Cipher(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.Rainbow);
             string decrypted = BmpPwd.Decrypt(Salt, encrypted, new Cipher(), BmpPwd.DrawingScheme.Square, BmpPwd.ColorScheme.Rainbow);
 
             Assert.AreEqual(Text, decrypted);
