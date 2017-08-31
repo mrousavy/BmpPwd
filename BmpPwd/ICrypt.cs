@@ -1,11 +1,11 @@
 ﻿namespace mrousavy {
     namespace Cryptography {
         /// <summary>
-        /// Cryptography interface
+        ///     Cryptography interface
         /// </summary>
         public interface ICrypt {
             /// <summary>
-            /// Encrypt Text
+            ///     Encrypt Text
             /// </summary>
             /// <param name="unencryptedText">The text to Encrypt</param>
             /// <param name="salt">Salt for encryption</param>
@@ -13,7 +13,7 @@
             string Encrypt(string salt, string unencryptedText);
 
             /// <summary>
-            /// Decrypt Text
+            ///     Decrypt Text
             /// </summary>
             /// <param name="encryptedText">The text to Decrypt</param>
             /// <param name="salt">Salt for decryption</param>

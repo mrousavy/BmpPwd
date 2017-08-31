@@ -4,29 +4,43 @@ using System.Drawing.Imaging;
 using System.Text;
 
 namespace mrousavy {
-
     namespace Cryptography {
         /// <summary>
-        /// Text and Image Cryptography
+        ///     Text and Image Cryptography
         /// </summary>
         public static class BmpPwd {
+            /// <summary>
+            ///     Color Scheme/Style for Image Drawing
+            /// </summary>
+            public enum ColorScheme {
+                Greyscale,
+                RedOnly,
+                GreenOnly,
+                BlueOnly,
+                RedMixed,
+                GreenMixed,
+                BlueMixed,
+                Rainbow
+            }
+
+            /// <summary>
+            ///     Drawing Scheme/Style for Image Drawing
+            ///     (Use <see cref="DrawingScheme.Line" /> for faster encryption and minimal storage usage)
+            /// </summary>
+            public enum DrawingScheme {
+                Line,
+                Circular,
+                Square
+            }
+
             internal static Random Random = new Random();
 
-            /// <summary>
-            /// Drawing Scheme/Style for Image Drawing
-            /// (Use <see cref="DrawingScheme.Line"/> for faster encryption and minimal storage usage)
-            /// </summary>
-            public enum DrawingScheme { Line, Circular, Square }
-
-            /// <summary>
-            /// Color Scheme/Style for Image Drawing
-            /// </summary>
-            public enum ColorScheme { Greyscale, RedOnly, GreenOnly, BlueOnly, RedMixed, GreenMixed, BlueMixed, Rainbow }
-
             //Text & Image Encryption
+
             #region Encrypt
+
             /// <summary>
-            /// Encrypt Text to an Image with default Cipher Encryption
+            ///     Encrypt Text to an Image with default Cipher Encryption
             /// </summary>
             /// <param name="salt">The salt used for the Encryption</param>
             /// <param name="unencryptedText">The original unencrypted Text</param>
@@ -36,13 +50,13 @@ namespace mrousavy {
             }
 
             /// <summary>
-            /// Encrypt Text to an Image with default Cipher Encryption
+            ///     Encrypt Text to an Image with default Cipher Encryption
             /// </summary>
             /// <param name="salt">The salt used for the Encryption</param>
             /// <param name="unencryptedText">The original unencrypted Text</param>
             /// <param name="cryptScheme">The Scheme/Interface Used for Encryption</param>
-            /// <param name="drawingScheme">The <see cref="DrawingScheme"/> to use for Drawing the Image</param>
-            /// <param name="colorScheme">The <see cref="ColorScheme"/> to use for colorizing the Image</param>
+            /// <param name="drawingScheme">The <see cref="DrawingScheme" /> to use for Drawing the Image</param>
+            /// <param name="colorScheme">The <see cref="ColorScheme" /> to use for colorizing the Image</param>
             /// <returns>The Encrypted Image</returns>
             public static Image Encrypt(
                 string salt,
@@ -70,28 +84,31 @@ namespace mrousavy {
 
                 return encryptedImage;
             }
+
             #endregion
 
             //Text & Image Decryption
+
             #region Decrypt
+
             /// <summary>
-            /// Decrypt an encrypted <see cref="Image"/> to a <see cref="string"/>
+            ///     Decrypt an encrypted <see cref="Image" /> to a <see cref="string" />
             /// </summary>
             /// <param name="salt">The salt used for the Encryption</param>
-            /// <param name="encryptedImage">The <see cref="BmpPwd"/> Encrypted <see cref="Image"/></param>
+            /// <param name="encryptedImage">The <see cref="BmpPwd" /> Encrypted <see cref="Image" /></param>
             /// <returns>The decrypted Text from the Image</returns>
             public static string Decrypt(string salt, Image encryptedImage) {
                 return Decrypt(salt, encryptedImage, new Cipher());
             }
 
             /// <summary>
-            /// Decrypt a encrypted <see cref="Image"/> to a <see cref="string"/>
+            ///     Decrypt a encrypted <see cref="Image" /> to a <see cref="string" />
             /// </summary>
             /// <param name="salt">The salt used for the Encryption</param>
-            /// <param name="encryptedImage">The <see cref="BmpPwd"/> Encrypted <see cref="Image"/></param>
+            /// <param name="encryptedImage">The <see cref="BmpPwd" /> Encrypted <see cref="Image" /></param>
             /// <param name="cryptScheme">The Scheme/Interface Used for Decryption</param>
-            /// <param name="drawingScheme">The <see cref="DrawingScheme"/> to use for Drawing the Image</param>
-            /// <param name="colorScheme">The <see cref="ColorScheme"/> to use for colorizing the Image</param>
+            /// <param name="drawingScheme">The <see cref="DrawingScheme" /> to use for Drawing the Image</param>
+            /// <param name="colorScheme">The <see cref="ColorScheme" /> to use for colorizing the Image</param>
             /// <returns>The decrypted Text from the Image</returns>
             public static string Decrypt(
                 string salt,
@@ -110,9 +127,7 @@ namespace mrousavy {
 
                 //Fill ASCII Values with Color's R Value (R = G = B)
                 byte[] asciiValues = new byte[width];
-                for (int i = 0; i < width; i++) {
-                    asciiValues[i] = Helper.GetAsciiValue(colorScheme, colors[i]);
-                }
+                for (int i = 0; i < width; i++) asciiValues[i] = Helper.GetAsciiValue(colorScheme, colors[i]);
 
                 //Decrypt result
                 string decrypted = Encoding.Unicode.GetString(asciiValues);
@@ -120,6 +135,7 @@ namespace mrousavy {
 
                 return decrypted;
             }
+
             #endregion
         }
     }

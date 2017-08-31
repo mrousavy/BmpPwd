@@ -3,32 +3,34 @@ using static mrousavy.Cryptography.BmpPwd;
 
 namespace mrousavy {
     /// <summary>
-    /// Helper class for System.Drawing functions
+    ///     Helper class for System.Drawing functions
     /// </summary>
     internal static class Helper {
         /// <summary>
-        /// Creates Graphics and draws all the Text (ASCII Values/bytes) onto a Image with the correct <see cref="DrawingScheme"/>
+        ///     Creates Graphics and draws all the Text (ASCII Values/bytes) onto a Image with the correct
+        ///     <see cref="DrawingScheme" />
         /// </summary>
-        /// <param name="encryptedImage">The <see cref="Image"/> to draw on</param>
-        /// <param name="drawingScheme">The <see cref="DrawingScheme"/> to use for the drawing Process</param>
-        /// <param name="colorScheme">The <see cref="ColorScheme"/> to apply on the Color picking</param>
+        /// <param name="encryptedImage">The <see cref="Image" /> to draw on</param>
+        /// <param name="drawingScheme">The <see cref="DrawingScheme" /> to use for the drawing Process</param>
+        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
         /// <param name="asciiValues">All the ASCII values of the Text to draw</param>
-        internal static void DrawCorrectScheme(Image encryptedImage, DrawingScheme drawingScheme, ColorScheme colorScheme, byte[] asciiValues) {
+        internal static void DrawCorrectScheme(Image encryptedImage, DrawingScheme drawingScheme,
+            ColorScheme colorScheme, byte[] asciiValues) {
             //Initialize Graphics
             using (var gfx = Graphics.FromImage(encryptedImage)) {
                 //Position & Diameter of Image
                 int position = 0;
                 int diameter = encryptedImage.Width;
-                
+
                 #region Drawing
+
                 //Loop through each Pixel
                 foreach (byte b in asciiValues) {
-
                     //The correct color used for drawing (b * 2 because b's max value is 128)
                     var color = GetColor(colorScheme, b);
 
                     //Set Pixel to ASCII Values (change Color.FromArg() values for different colors)
-                    using (SolidBrush brush = new SolidBrush(color)) {
+                    using (var brush = new SolidBrush(color)) {
                         //Draw different Schemes
                         switch (drawingScheme) {
                             case DrawingScheme.Circular:
@@ -48,16 +50,17 @@ namespace mrousavy {
                     position++;
                     diameter -= 2;
                 }
+
                 #endregion
             }
         }
 
         /// <summary>
-        /// Gets the correct <see cref="Color"/>
+        ///     Gets the correct <see cref="Color" />
         /// </summary>
-        /// <param name="colorScheme">The <see cref="ColorScheme"/> to apply on the Color picking</param>
+        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
         /// <param name="b">The byte defining the dynamic Color</param>
-        /// <returns>The correct <see cref="Color"/></returns>
+        /// <returns>The correct <see cref="Color" /></returns>
         internal static Color GetColor(ColorScheme colorScheme, byte b) {
             //For Mixed Colors
             int rnd1 = Random.Next(0, b);
@@ -88,11 +91,11 @@ namespace mrousavy {
         }
 
         /// <summary>
-        /// Gets the correct ASCII Value from the <see cref="Color"/> Input
+        ///     Gets the correct ASCII Value from the <see cref="Color" /> Input
         /// </summary>
-        /// <param name="colorScheme">The <see cref="ColorScheme"/> to apply on the Color picking</param>
-        /// <param name="color">The <see cref="Color"/> where the ASCII Value should be picked</param>
-        /// <returns>The correct <see cref="Color"/></returns>
+        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
+        /// <param name="color">The <see cref="Color" /> where the ASCII Value should be picked</param>
+        /// <returns>The correct <see cref="Color" /></returns>
         internal static byte GetAsciiValue(ColorScheme colorScheme, Color color) {
             switch (colorScheme) {
                 case ColorScheme.Greyscale:
@@ -117,24 +120,24 @@ namespace mrousavy {
         }
 
         /// <summary>
-        /// Sets width and y values depending on the <see cref="DrawingScheme"/>
+        ///     Sets width and y values depending on the <see cref="DrawingScheme" />
         /// </summary>
-        /// <param name="scheme">The <see cref="DrawingScheme"/> to use</param>
+        /// <param name="scheme">The <see cref="DrawingScheme" /> to use</param>
         /// <param name="y">The y value to be set</param>
         /// <param name="width">The width value to be set</param>
-        /// <param name="imageWidth">The <see cref="Image"/>'s width</param>
+        /// <param name="imageWidth">The <see cref="Image" />'s width</param>
         internal static void SetWidthY(DrawingScheme scheme, out int y, out int width, int imageWidth) {
             //Set width and y values for different DrawingSchemes
             switch (scheme) {
                 case DrawingScheme.Circular:
                     //Circular has radius of textlength -> width = Image.Width / 2
                     width = imageWidth / 2;
-                    y = (imageWidth / 2);
+                    y = imageWidth / 2;
                     break;
                 case DrawingScheme.Square:
                     //Square has dynamic height -> width = Image.Width / 2
                     width = imageWidth / 2;
-                    y = (imageWidth / 2) - 1;
+                    y = imageWidth / 2 - 1;
                     break;
                 case DrawingScheme.Line:
                     //Line has only height of 1 (Index = 0)
@@ -147,13 +150,12 @@ namespace mrousavy {
                     y = 0;
                     break;
             }
-
         }
 
         /// <summary>
-        /// Sets width and height values depending on the <see cref="DrawingScheme"/>
+        ///     Sets width and height values depending on the <see cref="DrawingScheme" />
         /// </summary>
-        /// <param name="scheme">The <see cref="DrawingScheme"/> to use</param>
+        /// <param name="scheme">The <see cref="DrawingScheme" /> to use</param>
         /// <param name="height">The height value to be set</param>
         /// <param name="width">The width value to be set</param>
         /// <param name="textLength">The Encrypted Text's length</param>
@@ -184,19 +186,20 @@ namespace mrousavy {
         }
 
         /// <summary>
-        /// Get all Pixels from a <see cref="Image"/> into a <see cref="Color"/>[]
+        ///     Get all Pixels from a <see cref="Image" /> into a <see cref="Color" />[]
         /// </summary>
         /// <param name="width">Width of the Image</param>
         /// <param name="y">The Y index of the Image to read from</param>
-        /// <param name="drawingScheme">The <see cref="DrawingScheme"/> to read</param>
-        /// <param name="encryptedImage">The <see cref="Image"/> to read from</param>
-        /// <param name="colorScheme">The <see cref="ColorScheme"/> to apply on the Color picking</param>
-        /// <returns>The filled <see cref="Color"/>[]</returns>
-        internal static Color[] GetPixelsFromImage(int width, int y, DrawingScheme drawingScheme, ColorScheme colorScheme, Image encryptedImage) {
+        /// <param name="drawingScheme">The <see cref="DrawingScheme" /> to read</param>
+        /// <param name="encryptedImage">The <see cref="Image" /> to read from</param>
+        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
+        /// <returns>The filled <see cref="Color" />[]</returns>
+        internal static Color[] GetPixelsFromImage(int width, int y, DrawingScheme drawingScheme,
+            ColorScheme colorScheme, Image encryptedImage) {
             //Get all Pixels from Image
             Color[] colors = new Color[width];
             using (var bitmap = new Bitmap(encryptedImage)) {
-                for (int i = 0; i < width; i++) {
+                for (int i = 0; i < width; i++)
                     switch (drawingScheme) {
                         case DrawingScheme.Circular:
                             //Circular has dynamic height -> y = height/2
@@ -211,7 +214,6 @@ namespace mrousavy {
                             colors[i] = bitmap.GetPixel(i, 0);
                             break;
                     }
-                }
             }
 
             return colors;
