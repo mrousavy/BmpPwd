@@ -9,23 +9,27 @@
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10,10,10,0"
-                    VerticalAlignment="Top" HorizontalAlignment="Left">
+                        VerticalAlignment="Top" HorizontalAlignment="Left">
                 <Label>Encrypt: </Label>
-                
+
                 <TextBox Margin="3" x:Name="UnencryptedBox" Width="150" Height="20"
-                 VerticalAlignment="Top" HorizontalAlignment="Left"
-                 KeyDown="UnencryptedBox_OnKeyDown"/>
+                         VerticalAlignment="Top" HorizontalAlignment="Left"
+                         KeyDown="UnencryptedBox_OnKeyDown" />
 
                 <Button Margin="3" Height="20"
-            VerticalAlignment="Top" HorizontalAlignment="Left"
-            Click="EncryptButton_OnClick">Encrypt</Button>
+                        VerticalAlignment="Top" HorizontalAlignment="Left"
+                        Click="EncryptButton_OnClick">
+                    Encrypt
+                </Button>
 
                 <Button Margin="3" Height="20"
-            VerticalAlignment="Top" HorizontalAlignment="Left"
-            Click="SaveButton_OnClick">Save</Button>
+                        VerticalAlignment="Top" HorizontalAlignment="Left"
+                        Click="SaveButton_OnClick">
+                    Save
+                </Button>
 
                 <ComboBox Margin="3" Height="20" SelectionChanged="FormBox_Changed"
-            VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0">
+                          VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0">
                     <ComboBoxItem>
                         Circular
                     </ComboBoxItem>
@@ -38,7 +42,7 @@
                 </ComboBox>
 
                 <ComboBox Margin="3" Height="20" SelectionChanged="ColorBox_Changed"
-            VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0">
+                          VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0">
                     <ComboBoxItem>
                         Greyscale
                     </ComboBoxItem>
@@ -67,19 +71,21 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="10,0,10,10"
-                    VerticalAlignment="Top" HorizontalAlignment="Left">
+                        VerticalAlignment="Top" HorizontalAlignment="Left">
                 <Label>Decrypt:</Label>
 
                 <TextBox Margin="3" Width="150" Height="20" x:Name="DecryptedBox"
-                 VerticalAlignment="Top" HorizontalAlignment="Left"
-                 KeyDown="UnencryptedBox_OnKeyDown" IsReadOnly="True"/>
+                         VerticalAlignment="Top" HorizontalAlignment="Left"
+                         KeyDown="UnencryptedBox_OnKeyDown" IsReadOnly="True" />
 
                 <Button Margin="3" Height="20"
-            VerticalAlignment="Top" HorizontalAlignment="Left"
-            Click="OpenButton_OnClick">Open</Button>
+                        VerticalAlignment="Top" HorizontalAlignment="Left"
+                        Click="OpenButton_OnClick">
+                    Open
+                </Button>
 
                 <ComboBox Margin="3" Height="20" SelectionChanged="FormBox_Changed"
-            VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0">
+                          VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0">
                     <ComboBoxItem>
                         Circular
                     </ComboBoxItem>
@@ -92,7 +98,7 @@
                 </ComboBox>
 
                 <ComboBox Margin="3" Height="20" SelectionChanged="ColorBox_Changed"
-            VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0">
+                          VerticalAlignment="Top" HorizontalAlignment="Left" SelectedIndex="0">
                     <ComboBoxItem>
                         Greyscale
                     </ComboBoxItem>
@@ -120,7 +126,7 @@
                 </ComboBox>
             </StackPanel>
         </StackPanel>
-        
-        <Image Margin="30,80,30,10" x:Name="EncryptedImage"></Image>
+
+        <Image Margin="30,80,30,10" x:Name="EncryptedImage" />
     </Grid>
 </Window>
