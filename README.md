@@ -122,3 +122,4 @@ Do **not** lossy-compress the encrypted Bitmap or chances are the Bitmap can't g
 
 
 # Thanks for using BmpPwd!
+> License: [MIT](https://github.com/mrousavy/BmpPwd/blob/master/LICENSE) | mrousavy 2017
