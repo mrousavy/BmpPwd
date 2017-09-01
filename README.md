@@ -20,7 +20,11 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
 
 ### 1. Add Binaries
    + NuGet
-      * [BmpPwd is also available on NuGet!](https://www.nuget.org/packages/BmpPwd)   Install by typing `Install-Package BmpPwd` in NuGet Package Manager Console. (Or search for `BmpPwd` on NuGet)
+      * [BmpPwd is also available on NuGet!](https://www.nuget.org/packages/BmpPwd)   Install via NuGet Package Manager Console:
+      ```nuget
+      PM> Install-Package BmpPwd -Version 1.0.0.7-fix
+      ```
+      or by browsing NuGet Marketplace for `BmpPwd`
 
    + Manually
       1. [Download the latest Library (.dll)](https://github.com/mrousavy/BmpPwd/releases/download/1.0.0.5/BmpPwd.dll)
