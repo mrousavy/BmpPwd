@@ -4,11 +4,11 @@
         ///     ICrypt implementation without any En/De-cryption
         /// </summary>
         public class NoEncryption : ICrypt {
-            public string Decrypt(string salt, string encryptedText) {
+            public string Decrypt(string key, string encryptedText) {
                 return encryptedText;
             }
 
-            public string Encrypt(string salt, string unencryptedText) {
+            public string Encrypt(string key, string unencryptedText) {
                 return unencryptedText;
             }
         }

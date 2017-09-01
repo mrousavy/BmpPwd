@@ -11,8 +11,9 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    * BmpPwd Encryption Color Scheme
    * BmpPwd Decryption Method
    * En/Decryption Algorithm _(Default: Cipher)_
-   * Pass-Phrase/Salt for En/Decryption Algorithm
-   
+   * Pass-Phrase/Key for En/Decryption Algorithm
+   * Random Salt for En/Decryption Algorithm
+
 [Download the Demo (.zip)](https://github.com/mrousavy/BmpPwd/releases/download/1.0.0.5/BmpPwdTest.zip)
 
 # How to use
@@ -30,7 +31,7 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    ```C#
    using mrousavy.Cryptography;
    ```
-   
+
    * VB:
    ```VB
    Imports mrousavy.Cryptography
@@ -43,28 +44,28 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    //Needs Reference to System.Drawing dll
    System.Drawing.Bitmap encryptedBitmap = BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
    ```
-   
+
    * VB:
    ```VB
    ' Needs Reference to System.Drawing dll
    Dim encryptedBitmap As System.Drawing.Bitmap
    encryptedBitmap = BmpPwd.Encrypt("MyPassword", "The string to be encrypted")
    ```
-   
+
 ### 4. Decrypt an Image
    * C#:
    ```C#
    //Needs Reference to System.Drawing dll
    string decryptedText = BmpPwd.Decrypt("MyPassword", encryptedBitmap);
    ```
-   
+
    * VB:
    ```VB
    ' Needs Reference to System.Drawing dll
-   Dim decryptedText As String 
+   Dim decryptedText As String
    decryptedText = BmpPwd.Decrypt("MyPassword", encryptedBitmap)
    ```
-   
+
 ### 5. Import your own Encryption
    * C#:
    ```C#
@@ -72,7 +73,7 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
        // Implement Encrypt(..) and Decrypt(..) here
    }
    ```
-   
+
    * VB:
    ```VB
    Public Class MyCryptoClass
@@ -90,7 +91,7 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
                                                           BmpPwd.DrawingScheme.Square,
                                                           BmpPwd.ColorScheme.BlueMixed);
    ```
-   
+
    * VB:
    ```VB
    Dim encryptedBitmap As System.Drawing.Bitmap

@@ -17,13 +17,13 @@ namespace mrousavy {
             ///     Encrypt a Text
             /// </summary>
             /// <param name="unencryptedText">The text to Encrypt</param>
-            /// <param name="salt">Salt for encryption</param>
+            /// <param name="key">Encryption Key</param>
             /// <returns>Encrypted Text</returns>
-            public string Encrypt(string salt, string unencryptedText) {
+            public string Encrypt(string key, string unencryptedText) {
                 byte[] saltStringBytes = Generate256BitsOfRandomEntropy();
                 byte[] ivStringBytes = Generate256BitsOfRandomEntropy();
                 byte[] plainTextBytes = Encoding.UTF8.GetBytes(unencryptedText);
-                using (var password = new Rfc2898DeriveBytes(salt, saltStringBytes, DerivationIterations)) {
+                using (var password = new Rfc2898DeriveBytes(key, saltStringBytes, DerivationIterations)) {
                     byte[] keyBytes = password.GetBytes(Keysize / 8);
                     using (var symmetricKey = new RijndaelManaged()) {
                         symmetricKey.BlockSize = 256;
@@ -52,16 +52,16 @@ namespace mrousavy {
             ///     Decrypt a Text
             /// </summary>
             /// <param name="encryptedText">The text to Decrypt</param>
-            /// <param name="salt">Salt for decryption</param>
+            /// <param name="key">Encryption Key</param>
             /// <returns>Decrypted Text</returns>
-            public string Decrypt(string salt, string encryptedText) {
+            public string Decrypt(string key, string encryptedText) {
                 byte[] cipherTextBytesWithSaltAndIv = Convert.FromBase64String(encryptedText);
                 byte[] saltStringBytes = cipherTextBytesWithSaltAndIv.Take(Keysize / 8).ToArray();
                 byte[] ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8).Take(Keysize / 8).ToArray();
                 byte[] cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8 * 2)
                     .Take(cipherTextBytesWithSaltAndIv.Length - Keysize / 8 * 2).ToArray();
 
-                using (var password = new Rfc2898DeriveBytes(salt, saltStringBytes, DerivationIterations)) {
+                using (var password = new Rfc2898DeriveBytes(key, saltStringBytes, DerivationIterations)) {
                     byte[] keyBytes = password.GetBytes(Keysize / 8);
                     using (var symmetricKey = new RijndaelManaged()) {
                         symmetricKey.BlockSize = 256;

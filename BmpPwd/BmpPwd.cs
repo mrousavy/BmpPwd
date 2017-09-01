@@ -42,24 +42,24 @@ namespace mrousavy {
             /// <summary>
             ///     Encrypt Text to an Image with default Cipher Encryption
             /// </summary>
-            /// <param name="salt">The salt used for the Encryption</param>
+            /// <param name="key">The key used for the Encryption</param>
             /// <param name="unencryptedText">The original unencrypted Text</param>
             /// <returns>The Encrypted Image</returns>
-            public static Image Encrypt(string salt, string unencryptedText) {
-                return Encrypt(salt, unencryptedText, new Cipher());
+            public static Image Encrypt(string key, string unencryptedText) {
+                return Encrypt(key, unencryptedText, new Cipher());
             }
 
             /// <summary>
             ///     Encrypt Text to an Image with default Cipher Encryption
             /// </summary>
-            /// <param name="salt">The salt used for the Encryption</param>
+            /// <param name="key">The key used for the Encryption</param>
             /// <param name="unencryptedText">The original unencrypted Text</param>
             /// <param name="cryptScheme">The Scheme/Interface Used for Encryption</param>
             /// <param name="drawingScheme">The <see cref="DrawingScheme" /> to use for Drawing the Image</param>
             /// <param name="colorScheme">The <see cref="ColorScheme" /> to use for colorizing the Image</param>
             /// <returns>The Encrypted Image</returns>
             public static Image Encrypt(
-                string salt,
+                string key,
                 string unencryptedText,
                 ICrypt cryptScheme,
                 DrawingScheme drawingScheme = DrawingScheme.Line,
@@ -68,7 +68,7 @@ namespace mrousavy {
                     cryptScheme = new Cipher();
 
                 //Get the encrypted Text
-                string encryptedText = cryptScheme.Encrypt(salt, unencryptedText);
+                string encryptedText = cryptScheme.Encrypt(key, unencryptedText);
 
                 //Get all ASCII values
                 byte[] asciiValues = Encoding.Unicode.GetBytes(encryptedText);
@@ -94,24 +94,24 @@ namespace mrousavy {
             /// <summary>
             ///     Decrypt an encrypted <see cref="Image" /> to a <see cref="string" />
             /// </summary>
-            /// <param name="salt">The salt used for the Encryption</param>
+            /// <param name="key">The key used for the Encryption</param>
             /// <param name="encryptedImage">The <see cref="BmpPwd" /> Encrypted <see cref="Image" /></param>
             /// <returns>The decrypted Text from the Image</returns>
-            public static string Decrypt(string salt, Image encryptedImage) {
-                return Decrypt(salt, encryptedImage, new Cipher());
+            public static string Decrypt(string key, Image encryptedImage) {
+                return Decrypt(key, encryptedImage, new Cipher());
             }
 
             /// <summary>
             ///     Decrypt a encrypted <see cref="Image" /> to a <see cref="string" />
             /// </summary>
-            /// <param name="salt">The salt used for the Encryption</param>
+            /// <param name="key">The key used for the Encryption</param>
             /// <param name="encryptedImage">The <see cref="BmpPwd" /> Encrypted <see cref="Image" /></param>
             /// <param name="cryptScheme">The Scheme/Interface Used for Decryption</param>
             /// <param name="drawingScheme">The <see cref="DrawingScheme" /> to use for Drawing the Image</param>
             /// <param name="colorScheme">The <see cref="ColorScheme" /> to use for colorizing the Image</param>
             /// <returns>The decrypted Text from the Image</returns>
             public static string Decrypt(
-                string salt,
+                string key,
                 Image encryptedImage,
                 ICrypt cryptScheme,
                 DrawingScheme drawingScheme = DrawingScheme.Line,
@@ -131,7 +131,7 @@ namespace mrousavy {
 
                 //Decrypt result
                 string decrypted = Encoding.Unicode.GetString(asciiValues);
-                decrypted = cryptScheme.Decrypt(salt, decrypted);
+                decrypted = cryptScheme.Decrypt(key, decrypted);
 
                 return decrypted;
             }
