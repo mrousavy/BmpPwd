@@ -22,7 +22,7 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    + NuGet
       * [BmpPwd is also available on NuGet!](https://www.nuget.org/packages/BmpPwd)   Install via NuGet Package Manager Console:
       ```nuget
-      PM> Install-Package BmpPwd -Version 1.0.0.7-fix
+      PM> Install-Package BmpPwd
       ```
       or by browsing NuGet Marketplace for `BmpPwd`
 
