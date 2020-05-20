@@ -135,7 +135,7 @@ namespace BmpPwd
 
             //Fill ASCII Values with Color's R Value (R = G = B)
             var asciiValues = new byte[width];
-            for (int i = 0; i < width; i++) asciiValues[i] = Helper.GetAsciiValue(colorScheme, colors[i]);
+            for (int i = 0; i < width; i++) asciiValues[i] = (byte)(Helper.GetAsciiValue(colorScheme, colors[i]) / 2);
 
             //Decrypt result
             string decrypted = Encoding.Unicode.GetString(asciiValues);

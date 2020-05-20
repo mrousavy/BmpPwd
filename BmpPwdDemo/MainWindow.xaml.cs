@@ -1,6 +1,8 @@
 ﻿//Reference BmpPwd DLL
 
 using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +25,10 @@ namespace BmpPwdDemo {
             InitializeComponent();
 
             UnencryptedBox.Focus();
+            var key = "Yeeeet";
+            var cipher = new Cipher();
+            var encrypted = cipher.Encrypt(key, "Yayeeeeet");
+            var decrypted = cipher.Decrypt(key, encrypted);
         }
 
         private void EncryptButton_OnClick(object sender, RoutedEventArgs e) {

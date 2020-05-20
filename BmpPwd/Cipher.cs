@@ -14,7 +14,7 @@ namespace BmpPwd
     {
         private const int Keysize = 256;
         private const int DerivationIterations = 1000;
-        private const int AESBlockSize = 128;
+        private const int AESBlockSize = 256;
 
         /// <summary>
         ///     Encrypt a plain text using a string password-key
