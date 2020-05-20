@@ -28,10 +28,6 @@ namespace BmpPwdDemo
             InitializeComponent();
 
             UnencryptedBox.Focus();
-            string key = "Yeeeet";
-            var cipher = new Cipher();
-            string encrypted = cipher.Encrypt(key, "Yayeeeeet");
-            string decrypted = cipher.Decrypt(key, encrypted);
         }
 
         private void EncryptButton_OnClick(object sender, RoutedEventArgs e)

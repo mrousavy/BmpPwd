@@ -1,5 +1,5 @@
 # <img src="https://github.com/mrousavy/BmpPwd/blob/master/Images/Logo.png?raw=true" width="42"> BmpPwd
-**BmpPwd** is a _Class Library_ for **en/decrypting** Text and visualizing it with a **[System.Drawing.Image](https://msdn.microsoft.com/en-us/library/system.drawing.image(v=vs.110).aspx)**
+**BmpPwd** is a .NET Standard 2.0 class library for encrypting and decrypting plain text to an Image (see: [`System.Drawing.Common`](https://www.nuget.org/packages/System.Drawing.Common/))
 
 [![NuGet](https://img.shields.io/nuget/dt/BmpPwd.svg)](https://www.nuget.org/packages/BmpPwd/)
 
@@ -16,11 +16,9 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    * Pass-Phrase/Key for En/Decryption Algorithm
    * Random Salt for En/Decryption Algorithm
 
-[Download the Demo (.zip)](https://github.com/mrousavy/BmpPwd/releases/download/1.0.0.5/BmpPwdTest.zip)
+[**Download the Demo Application** (.zip)](https://github.com/mrousavy/BmpPwd/releases/download/2.0.0/BmpPwdDemo.zip)
 
-# How to use
-
-### 1. Add Binaries
+### Install
    + NuGet
       * [BmpPwd is also available on NuGet!](https://www.nuget.org/packages/BmpPwd)   Install via NuGet Package Manager Console:
       ```nuget
@@ -32,64 +30,71 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
       1. [Download the latest Library (.dll)](https://github.com/mrousavy/BmpPwd/releases/download/1.0.0.5/BmpPwd.dll)
       2. Add the .dll to your Project   (Right click `References` in the Project Tree View, click `Add References` and `Browse` to the `.dll` File)
 
-### 2. Add the reference
+# How to use
+
+## Using the default AES Cipher (Rijndael)
+
+### Encrypt a string
    * C#:
-   ```C#
-   using mrousavy.Cryptography;
+   ```cs
+   using System.Drawing.Common;
+   using BmpPwd;
+   // ...
+   var encryptedImage = BmpPwd.BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
    ```
 
    * VB:
-   ```VB
-   Imports mrousavy.Cryptography
+   ```vb
+   Imports System.Drawing.Common
+   Imports BmpPwd
+   ' ...
+   Dim encryptedImage = BmpPwd.BmpPwd.Encrypt("MyPassword", "The string to be encrypted")
    ```
 
-### 3. Encrypt a string
-(Do not lossy-compress the Image!)
+**⚠️: Be careful when saving the Image to not use lossy image compression, like JPEG. Lossy-compressing the Image will result in losing details and results in an un-decryptable image. Save as PNG or BMP to maintain pixel quality.**
+
+### Decrypt an Image
    * C#:
-   ```C#
-   //Needs Reference to System.Drawing dll
-   var encryptedImage = BmpPwd.Encrypt("MyPassword", "The string to be encrypted");
-   ```
-
-   * VB:
-   ```VB
-   ' Needs Reference to System.Drawing dll
-   Dim encryptedImage = BmpPwd.Encrypt("MyPassword", "The string to be encrypted")
-   ```
-
-### 4. Decrypt an Image
-   * C#:
-   ```C#
-   //Needs Reference to System.Drawing dll
+   ```cs
+   using System.Drawing.Common;
+   using BmpPwd;
+   // ...
    string decryptedText = BmpPwd.Decrypt("MyPassword", encryptedImage);
    ```
 
    * VB:
-   ```VB
-   ' Needs Reference to System.Drawing dll
+   ```vb
+   Imports System.Drawing.Common
+   Imports BmpPwd
+   ' ...
    Dim decryptedText = BmpPwd.Decrypt("MyPassword", encryptedImage)
    ```
 
-### 5. Import your own Encryption
+## Custom Encryption Implementation
+
+### Implement your custom Encryption class
    * C#:
-   ```C#
+   ```cs
    public class MyCryptoClass : ICrypto {
        // Implement Encrypt(..) and Decrypt(..) here
    }
    ```
 
    * VB:
-   ```VB
+   ```vb
    Public Class MyCryptoClass
        Implements ICrypto
            ' Implement Encrypt(..) and Decrypt(..) here
    End Class
    ```
 
-### 6. Use custom Parameters:
+### Use
    * C#:
-   ```C#
-   var encryptedImage = BmpPwd.Encrypt("MyPassword",
+   ```cs
+   using System.Drawing.Common;
+   using BmpPwd;
+   // ...
+   var encryptedImage = BmpPwd.BmpPwd.Encrypt("MyPassword",
                                         "The string to be encrypted",
                                         new MyCryptoClass(),
                                         BmpPwd.DrawingScheme.Square,
@@ -97,8 +102,11 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
    ```
 
    * VB:
-   ```VB
-   Dim encryptedImage = BmpPwd.Encrypt(
+   ```vb
+   Imports System.Drawing.Common
+   Imports BmpPwd
+   ' ...
+   Dim encryptedImage = BmpPwd.BmpPwd.Encrypt(
        "MyPassword",
        "The string to be encrypted",
        new MyCryptoClass(),
@@ -120,9 +128,6 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
 
 Use `Line` if you care about small performance benefits.
 
-## Lossy compression
-Do **not** lossy-compress the encrypted Image or chances are the Image can't get decrypted again. If you want to save the Image, do not use `.jpg`.
-
 
 # Thanks for using BmpPwd!
-> License: [MIT](https://github.com/mrousavy/BmpPwd/blob/master/LICENSE) | mrousavy 2017
+> License: [MIT](https://github.com/mrousavy/BmpPwd/blob/master/LICENSE) | mrousavy 2020
