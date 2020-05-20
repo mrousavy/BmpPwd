@@ -14,7 +14,6 @@ namespace BmpPwd
     {
         private const int Keysize = 256;
         private const int DerivationIterations = 1000;
-        private const int AESBlockSize = 256;
 
         /// <summary>
         ///     Encrypt a plain text using a string password-key
@@ -35,7 +34,7 @@ namespace BmpPwd
                 using (var symmetricKey = new RijndaelManaged())
                 {
                     // only .NET Core the block size has to be 128!
-                    symmetricKey.BlockSize = AESBlockSize;
+                    symmetricKey.BlockSize = Keysize;
                     symmetricKey.Mode = CipherMode.CBC;
                     symmetricKey.Padding = PaddingMode.PKCS7;
                     using (var encryptor = symmetricKey.CreateEncryptor(keyBytes, ivStringBytes))
@@ -85,7 +84,7 @@ namespace BmpPwd
                 using (var symmetricKey = new RijndaelManaged())
                 {
                     // only .NET Core the block size has to be 128!
-                    symmetricKey.BlockSize = AESBlockSize;
+                    symmetricKey.BlockSize = Keysize;
                     symmetricKey.Mode = CipherMode.CBC;
                     symmetricKey.Padding = PaddingMode.PKCS7;
                     using (var decryptor = symmetricKey.CreateDecryptor(keyBytes, ivStringBytes))

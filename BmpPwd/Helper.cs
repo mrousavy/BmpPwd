@@ -73,9 +73,7 @@ namespace BmpPwd
             //For Mixed Colors
             int rnd1 = BmpPwd.Random.Next(0, b);
             int rnd2 = BmpPwd.Random.Next(0, b);
-            int rainbow1 = BmpPwd.Random.Next(0, 255);
-            int rainbow2 = BmpPwd.Random.Next(0, 255);
-            int value = b * 2;
+            int value = b;
 
             switch (colorScheme)
             {
@@ -94,6 +92,8 @@ namespace BmpPwd
                 case ColorScheme.BlueMixed:
                     return Color.FromArgb(rnd1, rnd2, value);
                 case ColorScheme.Rainbow:
+                    int rainbow1 = BmpPwd.Random.Next(0, 255);
+                    int rainbow2 = BmpPwd.Random.Next(0, 255);
                     return Color.FromArgb(value, rainbow1, rainbow2);
                 default:
                     return Color.FromArgb(value, value, value);

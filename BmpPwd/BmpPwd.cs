@@ -75,7 +75,7 @@ namespace BmpPwd
             string encryptedText = cryptScheme.Encrypt(key, unencryptedText);
 
             //Get all ASCII values
-            var asciiValues = Encoding.Unicode.GetBytes(encryptedText);
+            var asciiValues = Convert.FromBase64String(encryptedText);
 
             //Set correct Width and Height values
             Helper.SetWidthHeight(drawingScheme, out int height, out int width, asciiValues.Length);
@@ -134,14 +134,12 @@ namespace BmpPwd
             var asciiValues = new byte[width];
             for (int i = 0; i < width; i++)
             {
-                asciiValues[i] = (byte) (Helper.GetAsciiValue(colorScheme, colors[i]) / 2);
+                asciiValues[i] = (byte) (Helper.GetAsciiValue(colorScheme, colors[i]) );
             }
 
-            //Decrypt result
-            string decrypted = Encoding.Unicode.GetString(asciiValues);
-            decrypted = cryptScheme.Decrypt(key, decrypted);
-
-            return decrypted;
+            // Decrypt result
+            string base64 = Convert.ToBase64String(asciiValues);
+            return cryptScheme.Decrypt(key, base64);
         }
 
         #endregion
