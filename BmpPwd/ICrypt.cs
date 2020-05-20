@@ -1,11 +1,14 @@
-﻿namespace mrousavy {
-    namespace Cryptography {
+﻿namespace mrousavy
+{
+    namespace Cryptography
+    {
         /// <summary>
-        ///     Cryptography interface
+        ///     Cryptography interface, see <see cref="Cipher"/> for an example implementation
         /// </summary>
-        public interface ICrypt {
+        public interface ICrypt
+        {
             /// <summary>
-            ///     Encrypt Text
+            ///     Encrypt plain text using a password-key
             /// </summary>
             /// <param name="unencryptedText">The text to Encrypt</param>
             /// <param name="key">Encryption key</param>
@@ -13,7 +16,7 @@
             string Encrypt(string key, string unencryptedText);
 
             /// <summary>
-            ///     Decrypt Text
+            ///     Decrypt encrypted text using a password-key
             /// </summary>
             /// <param name="encryptedText">The text to Decrypt</param>
             /// <param name="key">Encryption key</param>

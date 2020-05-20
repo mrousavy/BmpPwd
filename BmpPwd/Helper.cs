@@ -1,11 +1,13 @@
 ﻿using System.Drawing;
 using static mrousavy.Cryptography.BmpPwd;
 
-namespace mrousavy {
+namespace mrousavy
+{
     /// <summary>
     ///     Helper class for System.Drawing functions
     /// </summary>
-    internal static class Helper {
+    internal static class Helper
+    {
         /// <summary>
         ///     Creates Graphics and draws all the Text (ASCII Values/bytes) onto a Image with the correct
         ///     <see cref="DrawingScheme" />
@@ -15,9 +17,11 @@ namespace mrousavy {
         /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
         /// <param name="asciiValues">All the ASCII values of the Text to draw</param>
         internal static void DrawCorrectScheme(Image encryptedImage, DrawingScheme drawingScheme,
-            ColorScheme colorScheme, byte[] asciiValues) {
+            ColorScheme colorScheme, byte[] asciiValues)
+        {
             //Initialize Graphics
-            using (var gfx = Graphics.FromImage(encryptedImage)) {
+            using (var gfx = Graphics.FromImage(encryptedImage))
+            {
                 //Position & Diameter of Image
                 int position = 0;
                 int diameter = encryptedImage.Width;
@@ -25,14 +29,17 @@ namespace mrousavy {
                 #region Drawing
 
                 //Loop through each Pixel
-                foreach (byte b in asciiValues) {
+                foreach (byte b in asciiValues)
+                {
                     //The correct color used for drawing (b * 2 because b's max value is 128)
                     var color = GetColor(colorScheme, b);
 
                     //Set Pixel to ASCII Values (change Color.FromArg() values for different colors)
-                    using (var brush = new SolidBrush(color)) {
+                    using (var brush = new SolidBrush(color))
+                    {
                         //Draw different Schemes
-                        switch (drawingScheme) {
+                        switch (drawingScheme)
+                        {
                             case DrawingScheme.Circular:
                                 //Circular has dynamic height -> y = height/2
                                 gfx.FillEllipse(brush, position, position, diameter, diameter);
@@ -61,14 +68,16 @@ namespace mrousavy {
         /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
         /// <param name="b">The byte defining the dynamic Color</param>
         /// <returns>The correct <see cref="Color" /></returns>
-        internal static Color GetColor(ColorScheme colorScheme, byte b) {
+        internal static Color GetColor(ColorScheme colorScheme, byte b)
+        {
             //For Mixed Colors
             int rnd1 = Random.Next(0, b);
             int rnd2 = Random.Next(0, b);
             int rainbow1 = Random.Next(0, 255);
             int rainbow2 = Random.Next(0, 255);
 
-            switch (colorScheme) {
+            switch (colorScheme)
+            {
                 case ColorScheme.Greyscale:
                     return Color.FromArgb(b, b, b);
                 case ColorScheme.RedOnly:
@@ -96,8 +105,10 @@ namespace mrousavy {
         /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
         /// <param name="color">The <see cref="Color" /> where the ASCII Value should be picked</param>
         /// <returns>The correct <see cref="Color" /></returns>
-        internal static byte GetAsciiValue(ColorScheme colorScheme, Color color) {
-            switch (colorScheme) {
+        internal static byte GetAsciiValue(ColorScheme colorScheme, Color color)
+        {
+            switch (colorScheme)
+            {
                 case ColorScheme.Greyscale:
                     return color.R;
                 case ColorScheme.RedOnly:
@@ -126,9 +137,11 @@ namespace mrousavy {
         /// <param name="y">The y value to be set</param>
         /// <param name="width">The width value to be set</param>
         /// <param name="imageWidth">The <see cref="Image" />'s width</param>
-        internal static void SetWidthY(DrawingScheme scheme, out int y, out int width, int imageWidth) {
+        internal static void SetWidthY(DrawingScheme scheme, out int y, out int width, int imageWidth)
+        {
             //Set width and y values for different DrawingSchemes
-            switch (scheme) {
+            switch (scheme)
+            {
                 case DrawingScheme.Circular:
                     //Circular has radius of textlength -> width = Image.Width / 2
                     width = imageWidth / 2;
@@ -159,9 +172,11 @@ namespace mrousavy {
         /// <param name="height">The height value to be set</param>
         /// <param name="width">The width value to be set</param>
         /// <param name="textLength">The Encrypted Text's length</param>
-        internal static void SetWidthHeight(DrawingScheme scheme, out int height, out int width, int textLength) {
+        internal static void SetWidthHeight(DrawingScheme scheme, out int height, out int width, int textLength)
+        {
             //Set correct Width and Height values for different DrawingSchemes
-            switch (scheme) {
+            switch (scheme)
+            {
                 case DrawingScheme.Circular:
                     //Circular has radius of bytes -> width & height = textlength * 2
                     width = textLength * 2;
@@ -195,12 +210,15 @@ namespace mrousavy {
         /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
         /// <returns>The filled <see cref="Color" />[]</returns>
         internal static Color[] GetPixelsFromImage(int width, int y, DrawingScheme drawingScheme,
-            ColorScheme colorScheme, Image encryptedImage) {
+            ColorScheme colorScheme, Image encryptedImage)
+        {
             //Get all Pixels from Image
             Color[] colors = new Color[width];
-            using (var bitmap = new Bitmap(encryptedImage)) {
+            using (var bitmap = new Bitmap(encryptedImage))
+            {
                 for (int i = 0; i < width; i++)
-                    switch (drawingScheme) {
+                    switch (drawingScheme)
+                    {
                         case DrawingScheme.Circular:
                             //Circular has dynamic height -> y = height/2
                             colors[i] = bitmap.GetPixel(i, y);
