@@ -16,10 +16,10 @@ namespace BmpPwdTests
         [TestMethod]
         public void TestBmpPwdLine()
         {
-            var encrypted = BmpPwd.Encrypt(Key, Text, new Cipher(), BmpPwd.DrawingScheme.Line,
-                BmpPwd.ColorScheme.Rainbow);
-            string decrypted = BmpPwd.Decrypt(Key, encrypted, new Cipher(), BmpPwd.DrawingScheme.Line,
-                BmpPwd.ColorScheme.Rainbow);
+            var encrypted = BmpPwd.BmpPwd.Encrypt(Key, Text, new Cipher(), DrawingScheme.Line,
+                ColorScheme.Rainbow);
+            string decrypted = BmpPwd.BmpPwd.Decrypt(Key, encrypted, new Cipher(), DrawingScheme.Line,
+                ColorScheme.Rainbow);
 
             Assert.AreEqual(Text, decrypted);
         }
@@ -27,9 +27,9 @@ namespace BmpPwdTests
         [TestMethod]
         public void TestBmpPwdCircle()
         {
-            var encrypted = BmpPwd.Encrypt(Key, Text, new Cipher(), BmpPwd.DrawingScheme.Circular,
+            var encrypted = BmpPwd.BmpPwd.Encrypt(Key, Text, new Cipher(), DrawingScheme.Circular,
                 BmpPwd.ColorScheme.Rainbow);
-            string decrypted = BmpPwd.Decrypt(Key, encrypted, new Cipher(), BmpPwd.DrawingScheme.Circular,
+            string decrypted = BmpPwd.BmpPwd.Decrypt(Key, encrypted, new Cipher(), DrawingScheme.Circular,
                 BmpPwd.ColorScheme.Rainbow);
 
             Assert.AreEqual(Text, decrypted);
@@ -38,9 +38,9 @@ namespace BmpPwdTests
         [TestMethod]
         public void TestBmpPwdSquare()
         {
-            var encrypted = BmpPwd.Encrypt(Key, Text, new Cipher(), BmpPwd.DrawingScheme.Square,
+            var encrypted = BmpPwd.BmpPwd.Encrypt(Key, Text, new Cipher(), DrawingScheme.Square,
                 BmpPwd.ColorScheme.Rainbow);
-            string decrypted = BmpPwd.Decrypt(Key, encrypted, new Cipher(), BmpPwd.DrawingScheme.Square,
+            string decrypted = BmpPwd.BmpPwd.Decrypt(Key, encrypted, new Cipher(), DrawingScheme.Square,
                 BmpPwd.ColorScheme.Rainbow);
 
             Assert.AreEqual(Text, decrypted);

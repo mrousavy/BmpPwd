@@ -14,6 +14,7 @@ namespace BmpPwd
     {
         private const int Keysize = 256;
         private const int DerivationIterations = 1000;
+        private const int AESBlockSize = 128;
 
         /// <summary>
         ///     Encrypt a plain text using a string password-key
@@ -25,15 +26,16 @@ namespace BmpPwd
         {
             // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
             // so that the same Salt and IV values can be used when decrypting.  
-            var saltStringBytes = Generate256BitsOfRandomEntropy();
-            var ivStringBytes = Generate256BitsOfRandomEntropy();
+            var saltStringBytes = GenerateBitsOfRandomEntropy(AESBlockSize);
+            var ivStringBytes = GenerateBitsOfRandomEntropy(AESBlockSize);
             var plainTextBytes = Encoding.UTF8.GetBytes(unencryptedText);
             using (var password = new Rfc2898DeriveBytes(key, saltStringBytes, DerivationIterations))
             {
                 var keyBytes = password.GetBytes(Keysize / 8);
                 using (var symmetricKey = new RijndaelManaged())
                 {
-                    symmetricKey.BlockSize = 256;
+                    // only .NET Core the block size has to be 128!
+                    symmetricKey.BlockSize = AESBlockSize;
                     symmetricKey.Mode = CipherMode.CBC;
                     symmetricKey.Padding = PaddingMode.PKCS7;
                     using (var encryptor = symmetricKey.CreateEncryptor(keyBytes, ivStringBytes))
@@ -81,7 +83,8 @@ namespace BmpPwd
                 var keyBytes = password.GetBytes(Keysize / 8);
                 using (var symmetricKey = new RijndaelManaged())
                 {
-                    symmetricKey.BlockSize = 256;
+                    // only .NET Core the block size has to be 128!
+                    symmetricKey.BlockSize = AESBlockSize;
                     symmetricKey.Mode = CipherMode.CBC;
                     symmetricKey.Padding = PaddingMode.PKCS7;
                     using (var decryptor = symmetricKey.CreateDecryptor(keyBytes, ivStringBytes))
@@ -102,9 +105,9 @@ namespace BmpPwd
             }
         }
 
-        private static byte[] Generate256BitsOfRandomEntropy()
+        private static byte[] GenerateBitsOfRandomEntropy(int size = 256)
         {
-            var randomBytes = new byte[32];
+            var randomBytes = new byte[size / 8];
             using (var rngCsp = new RNGCryptoServiceProvider())
             {
                 rngCsp.GetBytes(randomBytes);
