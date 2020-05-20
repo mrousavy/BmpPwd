@@ -21,43 +21,43 @@ namespace BmpPwd
             //Initialize Graphics
             using (var gfx = Graphics.FromImage(encryptedImage))
             {
-                //Position & Diameter of Image
-                int position = 0;
-                int diameter = encryptedImage.Width;
-
-                #region Drawing
-
-                //Loop through each Pixel
-                foreach (byte b in asciiValues)
+                using (var brush = new SolidBrush(Color.White))
                 {
-                    //The correct color used for drawing (b * 2 because b's max value is 128)
-                    var color = GetColor(colorScheme, b);
+                    //Position & Diameter of Image
+                    int position = 0;
+                    int diameter = encryptedImage.Width;
 
-                    //Set Pixel to ASCII Values (change Color.FromArg() values for different colors)
-                    using (var brush = new SolidBrush(color))
+                    #region Drawing
+
+                    //Loop through each Pixel
+                    foreach (byte b in asciiValues)
                     {
-                        //Draw different Schemes
-                        switch (drawingScheme)
-                        {
-                            case DrawingScheme.Circular:
-                                //Circular has dynamic height -> y = height/2
-                                gfx.FillEllipse(brush, position, position, diameter, diameter);
-                                break;
-                            case DrawingScheme.Line:
-                                //Line has only 1 Pixel Height -> y = 0
-                                gfx.FillRectangle(brush, position, 0, 1, 1);
-                                break;
-                            case DrawingScheme.Square:
-                                //Square has dynamic height -> y = height/2
-                                gfx.FillRectangle(brush, position, position, diameter, diameter);
-                                break;
-                        }
+                        //The correct color used for drawing
+                        brush.Color = GetColor(colorScheme, b);
+
+                        //Set Pixel to ASCII Values (change Color.FromArg() values for different colors)
+                            //Draw different Schemes
+                            switch (drawingScheme)
+                            {
+                                case DrawingScheme.Circular:
+                                    //Circular has dynamic height -> y = height/2
+                                    gfx.FillEllipse(brush, position, position, diameter, diameter);
+                                    break;
+                                case DrawingScheme.Line:
+                                    //Line has only 1 Pixel Height -> y = 0
+                                    gfx.FillRectangle(brush, position, 0, 1, 1);
+                                    break;
+                                case DrawingScheme.Square:
+                                    //Square has dynamic height -> y = height/2
+                                    gfx.FillRectangle(brush, position, position, diameter, diameter);
+                                    break;
+                            }
+
+                        position++;
+                        diameter -= 2;
                     }
 
-                    position++;
-                    diameter -= 2;
                 }
-
                 #endregion
             }
         }
@@ -73,30 +73,29 @@ namespace BmpPwd
             //For Mixed Colors
             int rnd1 = BmpPwd.Random.Next(0, b);
             int rnd2 = BmpPwd.Random.Next(0, b);
-            int value = b;
 
             switch (colorScheme)
             {
                 case ColorScheme.Greyscale:
-                    return Color.FromArgb(value, value, value);
+                    return Color.FromArgb(b, b, b);
                 case ColorScheme.RedOnly:
-                    return Color.FromArgb(value, 0, 0);
+                    return Color.FromArgb(b, 0, 0);
                 case ColorScheme.GreenOnly:
-                    return Color.FromArgb(0, value, 0);
+                    return Color.FromArgb(0, b, 0);
                 case ColorScheme.BlueOnly:
-                    return Color.FromArgb(0, 0, value);
+                    return Color.FromArgb(0, 0, b);
                 case ColorScheme.RedMixed:
-                    return Color.FromArgb(value, rnd1, rnd2);
+                    return Color.FromArgb(b, rnd1, rnd2);
                 case ColorScheme.GreenMixed:
-                    return Color.FromArgb(rnd1, value, rnd2);
+                    return Color.FromArgb(rnd1, b, rnd2);
                 case ColorScheme.BlueMixed:
-                    return Color.FromArgb(rnd1, rnd2, value);
+                    return Color.FromArgb(rnd1, rnd2, b);
                 case ColorScheme.Rainbow:
                     int rainbow1 = BmpPwd.Random.Next(0, 255);
                     int rainbow2 = BmpPwd.Random.Next(0, 255);
-                    return Color.FromArgb(value, rainbow1, rainbow2);
+                    return Color.FromArgb(b, rainbow1, rainbow2);
                 default:
-                    return Color.FromArgb(value, value, value);
+                    return Color.FromArgb(b, b, b);
             }
         }
 
@@ -154,12 +153,8 @@ namespace BmpPwd
                     y = imageWidth / 2 - 1;
                     break;
                 case DrawingScheme.Line:
-                    //Line has only height of 1 (Index = 0)
-                    width = imageWidth;
-                    y = 0;
-                    break;
                 default:
-                    //Default is Line
+                    //Line has only height of 1 (Index = 0)
                     width = imageWidth;
                     y = 0;
                     break;

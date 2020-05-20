@@ -134,7 +134,7 @@ namespace BmpPwd
             var asciiValues = new byte[width];
             for (int i = 0; i < width; i++)
             {
-                asciiValues[i] = (byte) (Helper.GetAsciiValue(colorScheme, colors[i]) );
+                asciiValues[i] = Helper.GetAsciiValue(colorScheme, colors[i]);
             }
 
             // Decrypt result

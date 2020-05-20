@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
     <Company>mrousavy</Company>
     <Authors>mrousavy</Authors>
     <Description>A Library for en/decrypting text to Images</Description>
@@ -14,6 +14,8 @@
     <RepositoryType>github</RepositoryType>
     <PackageTags>encryption, decryption, cipher, image, bitmap, password, salt, hash, aes</PackageTags>
     <PackageReleaseNotes>.NET Standard Package</PackageReleaseNotes>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <FileVersion>2.0.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
