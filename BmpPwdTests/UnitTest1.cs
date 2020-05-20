@@ -1,5 +1,5 @@
-﻿using mrousavy.Cryptography;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using BmpPwd;
 
 namespace BmpPwdTests
 {

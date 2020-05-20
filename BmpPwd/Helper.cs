@@ -1,8 +1,6 @@
 ﻿using System.Drawing;
-using System.Linq;
-using static mrousavy.Cryptography.BmpPwd;
 
-namespace mrousavy
+namespace BmpPwd
 {
     /// <summary>
     ///     Helper class for System.Drawing functions
@@ -11,14 +9,14 @@ namespace mrousavy
     {
         /// <summary>
         ///     Creates Graphics and draws all the Text (ASCII Values/bytes) onto a Image with the correct
-        ///     <see cref="DrawingScheme" />
+        ///     <see cref="BmpPwd.DrawingScheme" />
         /// </summary>
         /// <param name="encryptedImage">The <see cref="Image" /> to draw on</param>
-        /// <param name="drawingScheme">The <see cref="DrawingScheme" /> to use for the drawing Process</param>
-        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
+        /// <param name="drawingScheme">The <see cref="BmpPwd.DrawingScheme" /> to use for the drawing Process</param>
+        /// <param name="colorScheme">The <see cref="BmpPwd.ColorScheme" /> to apply on the Color picking</param>
         /// <param name="asciiValues">All the ASCII values of the Text to draw</param>
-        internal static void DrawCorrectScheme(Image encryptedImage, DrawingScheme drawingScheme,
-            ColorScheme colorScheme, byte[] asciiValues)
+        internal static void DrawCorrectScheme(Image encryptedImage, BmpPwd.DrawingScheme drawingScheme,
+            BmpPwd.ColorScheme colorScheme, byte[] asciiValues)
         {
             //Initialize Graphics
             using (var gfx = Graphics.FromImage(encryptedImage))
@@ -41,15 +39,15 @@ namespace mrousavy
                         //Draw different Schemes
                         switch (drawingScheme)
                         {
-                            case DrawingScheme.Circular:
+                            case BmpPwd.DrawingScheme.Circular:
                                 //Circular has dynamic height -> y = height/2
                                 gfx.FillEllipse(brush, position, position, diameter, diameter);
                                 break;
-                            case DrawingScheme.Line:
+                            case BmpPwd.DrawingScheme.Line:
                                 //Line has only 1 Pixel Height -> y = 0
                                 gfx.FillRectangle(brush, position, 0, 1, 1);
                                 break;
-                            case DrawingScheme.Square:
+                            case BmpPwd.DrawingScheme.Square:
                                 //Square has dynamic height -> y = height/2
                                 gfx.FillRectangle(brush, position, position, diameter, diameter);
                                 break;
@@ -66,35 +64,35 @@ namespace mrousavy
         /// <summary>
         ///     Gets the correct <see cref="Color" />
         /// </summary>
-        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
+        /// <param name="colorScheme">The <see cref="BmpPwd.ColorScheme" /> to apply on the Color picking</param>
         /// <param name="b">The byte defining the dynamic Color</param>
         /// <returns>The correct <see cref="Color" /></returns>
-        internal static Color GetColor(ColorScheme colorScheme, byte b)
+        internal static Color GetColor(BmpPwd.ColorScheme colorScheme, byte b)
         {
             //For Mixed Colors
-            int rnd1 = Random.Next(0, b);
-            int rnd2 = Random.Next(0, b);
-            int rainbow1 = Random.Next(0, 255);
-            int rainbow2 = Random.Next(0, 255);
+            int rnd1 = BmpPwd.Random.Next(0, b);
+            int rnd2 = BmpPwd.Random.Next(0, b);
+            int rainbow1 = BmpPwd.Random.Next(0, 255);
+            int rainbow2 = BmpPwd.Random.Next(0, 255);
             int value = b * 2;
 
             switch (colorScheme)
             {
-                case ColorScheme.Greyscale:
+                case BmpPwd.ColorScheme.Greyscale:
                     return Color.FromArgb(value, value, value);
-                case ColorScheme.RedOnly:
+                case BmpPwd.ColorScheme.RedOnly:
                     return Color.FromArgb(value, 0, 0);
-                case ColorScheme.GreenOnly:
+                case BmpPwd.ColorScheme.GreenOnly:
                     return Color.FromArgb(0, value, 0);
-                case ColorScheme.BlueOnly:
+                case BmpPwd.ColorScheme.BlueOnly:
                     return Color.FromArgb(0, 0, value);
-                case ColorScheme.RedMixed:
+                case BmpPwd.ColorScheme.RedMixed:
                     return Color.FromArgb(value, rnd1, rnd2);
-                case ColorScheme.GreenMixed:
+                case BmpPwd.ColorScheme.GreenMixed:
                     return Color.FromArgb(rnd1, value, rnd2);
-                case ColorScheme.BlueMixed:
+                case BmpPwd.ColorScheme.BlueMixed:
                     return Color.FromArgb(rnd1, rnd2, value);
-                case ColorScheme.Rainbow:
+                case BmpPwd.ColorScheme.Rainbow:
                     return Color.FromArgb(value, rainbow1, rainbow2);
                 default:
                     return Color.FromArgb(value, value, value);
@@ -104,28 +102,28 @@ namespace mrousavy
         /// <summary>
         ///     Gets the correct ASCII Value from the <see cref="Color" /> Input
         /// </summary>
-        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
+        /// <param name="colorScheme">The <see cref="BmpPwd.ColorScheme" /> to apply on the Color picking</param>
         /// <param name="color">The <see cref="Color" /> where the ASCII Value should be picked</param>
         /// <returns>The correct <see cref="Color" /></returns>
-        internal static byte GetAsciiValue(ColorScheme colorScheme, Color color)
+        internal static byte GetAsciiValue(BmpPwd.ColorScheme colorScheme, Color color)
         {
             switch (colorScheme)
             {
-                case ColorScheme.Greyscale:
+                case BmpPwd.ColorScheme.Greyscale:
                     return color.R;
-                case ColorScheme.RedOnly:
+                case BmpPwd.ColorScheme.RedOnly:
                     return color.R;
-                case ColorScheme.GreenOnly:
+                case BmpPwd.ColorScheme.GreenOnly:
                     return color.G;
-                case ColorScheme.BlueOnly:
+                case BmpPwd.ColorScheme.BlueOnly:
                     return color.B;
-                case ColorScheme.RedMixed:
+                case BmpPwd.ColorScheme.RedMixed:
                     return color.R;
-                case ColorScheme.GreenMixed:
+                case BmpPwd.ColorScheme.GreenMixed:
                     return color.G;
-                case ColorScheme.BlueMixed:
+                case BmpPwd.ColorScheme.BlueMixed:
                     return color.B;
-                case ColorScheme.Rainbow:
+                case BmpPwd.ColorScheme.Rainbow:
                     return color.R;
                 default:
                     return color.R;
@@ -133,28 +131,28 @@ namespace mrousavy
         }
 
         /// <summary>
-        ///     Sets width and y values depending on the <see cref="DrawingScheme" />
+        ///     Sets width and y values depending on the <see cref="BmpPwd.DrawingScheme" />
         /// </summary>
-        /// <param name="scheme">The <see cref="DrawingScheme" /> to use</param>
+        /// <param name="scheme">The <see cref="BmpPwd.DrawingScheme" /> to use</param>
         /// <param name="y">The y value to be set</param>
         /// <param name="width">The width value to be set</param>
         /// <param name="imageWidth">The <see cref="Image" />'s width</param>
-        internal static void SetWidthY(DrawingScheme scheme, out int y, out int width, int imageWidth)
+        internal static void SetWidthY(BmpPwd.DrawingScheme scheme, out int y, out int width, int imageWidth)
         {
             //Set width and y values for different DrawingSchemes
             switch (scheme)
             {
-                case DrawingScheme.Circular:
+                case BmpPwd.DrawingScheme.Circular:
                     //Circular has radius of textlength -> width = Image.Width / 2
                     width = imageWidth / 2;
                     y = imageWidth / 2;
                     break;
-                case DrawingScheme.Square:
+                case BmpPwd.DrawingScheme.Square:
                     //Square has dynamic height -> width = Image.Width / 2
                     width = imageWidth / 2;
                     y = imageWidth / 2 - 1;
                     break;
-                case DrawingScheme.Line:
+                case BmpPwd.DrawingScheme.Line:
                     //Line has only height of 1 (Index = 0)
                     width = imageWidth;
                     y = 0;
@@ -168,28 +166,28 @@ namespace mrousavy
         }
 
         /// <summary>
-        ///     Sets width and height values depending on the <see cref="DrawingScheme" />
+        ///     Sets width and height values depending on the <see cref="BmpPwd.DrawingScheme" />
         /// </summary>
-        /// <param name="scheme">The <see cref="DrawingScheme" /> to use</param>
+        /// <param name="scheme">The <see cref="BmpPwd.DrawingScheme" /> to use</param>
         /// <param name="height">The height value to be set</param>
         /// <param name="width">The width value to be set</param>
         /// <param name="textLength">The Encrypted Text's length</param>
-        internal static void SetWidthHeight(DrawingScheme scheme, out int height, out int width, int textLength)
+        internal static void SetWidthHeight(BmpPwd.DrawingScheme scheme, out int height, out int width, int textLength)
         {
             //Set correct Width and Height values for different DrawingSchemes
             switch (scheme)
             {
-                case DrawingScheme.Circular:
+                case BmpPwd.DrawingScheme.Circular:
                     //Circular has radius of bytes -> width & height = textlength * 2
                     width = textLength * 2;
                     height = textLength * 2;
                     break;
-                case DrawingScheme.Square:
+                case BmpPwd.DrawingScheme.Square:
                     //Square has dynamic height -> width & height = textlength * 2
                     width = textLength * 2;
                     height = textLength * 2;
                     break;
-                case DrawingScheme.Line:
+                case BmpPwd.DrawingScheme.Line:
                     //Line has only height of 1 (default values)
                     height = 1;
                     width = textLength;
@@ -207,29 +205,29 @@ namespace mrousavy
         /// </summary>
         /// <param name="width">Width of the Image</param>
         /// <param name="y">The Y index of the Image to read from</param>
-        /// <param name="drawingScheme">The <see cref="DrawingScheme" /> to read</param>
+        /// <param name="drawingScheme">The <see cref="BmpPwd.DrawingScheme" /> to read</param>
         /// <param name="encryptedImage">The <see cref="Image" /> to read from</param>
-        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
+        /// <param name="colorScheme">The <see cref="BmpPwd.ColorScheme" /> to apply on the Color picking</param>
         /// <returns>The filled <see cref="Color" />[]</returns>
-        internal static Color[] GetPixelsFromImage(int width, int y, DrawingScheme drawingScheme,
-            ColorScheme colorScheme, Image encryptedImage)
+        internal static Color[] GetPixelsFromImage(int width, int y, BmpPwd.DrawingScheme drawingScheme,
+            BmpPwd.ColorScheme colorScheme, Image encryptedImage)
         {
             //Get all Pixels from Image
-            Color[] colors = new Color[width];
+            var colors = new Color[width];
             using (var bitmap = new Bitmap(encryptedImage))
             {
                 for (int i = 0; i < width; i++)
                     switch (drawingScheme)
                     {
-                        case DrawingScheme.Circular:
+                        case BmpPwd.DrawingScheme.Circular:
                             //Circular has dynamic height -> y = height/2
                             colors[i] = bitmap.GetPixel(i, y);
                             break;
-                        case DrawingScheme.Square:
+                        case BmpPwd.DrawingScheme.Square:
                             //Square has dynamic height -> y = height/2
                             colors[i] = bitmap.GetPixel(i, y);
                             break;
-                        case DrawingScheme.Line:
+                        case BmpPwd.DrawingScheme.Line:
                             //Line has only 1 Pixel Height -> y = 0
                             colors[i] = bitmap.GetPixel(i, 0);
                             break;
