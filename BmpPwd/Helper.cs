@@ -9,14 +9,14 @@ namespace BmpPwd
     {
         /// <summary>
         ///     Creates Graphics and draws all the Text (ASCII Values/bytes) onto a Image with the correct
-        ///     <see cref="BmpPwd.DrawingScheme" />
+        ///     <see cref="DrawingScheme" />
         /// </summary>
         /// <param name="encryptedImage">The <see cref="Image" /> to draw on</param>
-        /// <param name="drawingScheme">The <see cref="BmpPwd.DrawingScheme" /> to use for the drawing Process</param>
-        /// <param name="colorScheme">The <see cref="BmpPwd.ColorScheme" /> to apply on the Color picking</param>
+        /// <param name="drawingScheme">The <see cref="DrawingScheme" /> to use for the drawing Process</param>
+        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
         /// <param name="asciiValues">All the ASCII values of the Text to draw</param>
-        internal static void DrawCorrectScheme(Image encryptedImage, BmpPwd.DrawingScheme drawingScheme,
-            BmpPwd.ColorScheme colorScheme, byte[] asciiValues)
+        internal static void DrawCorrectScheme(Image encryptedImage, DrawingScheme drawingScheme,
+            ColorScheme colorScheme, byte[] asciiValues)
         {
             //Initialize Graphics
             using (var gfx = Graphics.FromImage(encryptedImage))
@@ -39,15 +39,15 @@ namespace BmpPwd
                         //Draw different Schemes
                         switch (drawingScheme)
                         {
-                            case BmpPwd.DrawingScheme.Circular:
+                            case DrawingScheme.Circular:
                                 //Circular has dynamic height -> y = height/2
                                 gfx.FillEllipse(brush, position, position, diameter, diameter);
                                 break;
-                            case BmpPwd.DrawingScheme.Line:
+                            case DrawingScheme.Line:
                                 //Line has only 1 Pixel Height -> y = 0
                                 gfx.FillRectangle(brush, position, 0, 1, 1);
                                 break;
-                            case BmpPwd.DrawingScheme.Square:
+                            case DrawingScheme.Square:
                                 //Square has dynamic height -> y = height/2
                                 gfx.FillRectangle(brush, position, position, diameter, diameter);
                                 break;
@@ -64,10 +64,10 @@ namespace BmpPwd
         /// <summary>
         ///     Gets the correct <see cref="Color" />
         /// </summary>
-        /// <param name="colorScheme">The <see cref="BmpPwd.ColorScheme" /> to apply on the Color picking</param>
+        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
         /// <param name="b">The byte defining the dynamic Color</param>
         /// <returns>The correct <see cref="Color" /></returns>
-        internal static Color GetColor(BmpPwd.ColorScheme colorScheme, byte b)
+        internal static Color GetColor(ColorScheme colorScheme, byte b)
         {
             //For Mixed Colors
             int rnd1 = BmpPwd.Random.Next(0, b);
@@ -78,21 +78,21 @@ namespace BmpPwd
 
             switch (colorScheme)
             {
-                case BmpPwd.ColorScheme.Greyscale:
+                case ColorScheme.Greyscale:
                     return Color.FromArgb(value, value, value);
-                case BmpPwd.ColorScheme.RedOnly:
+                case ColorScheme.RedOnly:
                     return Color.FromArgb(value, 0, 0);
-                case BmpPwd.ColorScheme.GreenOnly:
+                case ColorScheme.GreenOnly:
                     return Color.FromArgb(0, value, 0);
-                case BmpPwd.ColorScheme.BlueOnly:
+                case ColorScheme.BlueOnly:
                     return Color.FromArgb(0, 0, value);
-                case BmpPwd.ColorScheme.RedMixed:
+                case ColorScheme.RedMixed:
                     return Color.FromArgb(value, rnd1, rnd2);
-                case BmpPwd.ColorScheme.GreenMixed:
+                case ColorScheme.GreenMixed:
                     return Color.FromArgb(rnd1, value, rnd2);
-                case BmpPwd.ColorScheme.BlueMixed:
+                case ColorScheme.BlueMixed:
                     return Color.FromArgb(rnd1, rnd2, value);
-                case BmpPwd.ColorScheme.Rainbow:
+                case ColorScheme.Rainbow:
                     return Color.FromArgb(value, rainbow1, rainbow2);
                 default:
                     return Color.FromArgb(value, value, value);
@@ -102,28 +102,28 @@ namespace BmpPwd
         /// <summary>
         ///     Gets the correct ASCII Value from the <see cref="Color" /> Input
         /// </summary>
-        /// <param name="colorScheme">The <see cref="BmpPwd.ColorScheme" /> to apply on the Color picking</param>
+        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
         /// <param name="color">The <see cref="Color" /> where the ASCII Value should be picked</param>
         /// <returns>The correct <see cref="Color" /></returns>
-        internal static byte GetAsciiValue(BmpPwd.ColorScheme colorScheme, Color color)
+        internal static byte GetAsciiValue(ColorScheme colorScheme, Color color)
         {
             switch (colorScheme)
             {
-                case BmpPwd.ColorScheme.Greyscale:
+                case ColorScheme.Greyscale:
                     return color.R;
-                case BmpPwd.ColorScheme.RedOnly:
+                case ColorScheme.RedOnly:
                     return color.R;
-                case BmpPwd.ColorScheme.GreenOnly:
+                case ColorScheme.GreenOnly:
                     return color.G;
-                case BmpPwd.ColorScheme.BlueOnly:
+                case ColorScheme.BlueOnly:
                     return color.B;
-                case BmpPwd.ColorScheme.RedMixed:
+                case ColorScheme.RedMixed:
                     return color.R;
-                case BmpPwd.ColorScheme.GreenMixed:
+                case ColorScheme.GreenMixed:
                     return color.G;
-                case BmpPwd.ColorScheme.BlueMixed:
+                case ColorScheme.BlueMixed:
                     return color.B;
-                case BmpPwd.ColorScheme.Rainbow:
+                case ColorScheme.Rainbow:
                     return color.R;
                 default:
                     return color.R;
@@ -131,28 +131,28 @@ namespace BmpPwd
         }
 
         /// <summary>
-        ///     Sets width and y values depending on the <see cref="BmpPwd.DrawingScheme" />
+        ///     Sets width and y values depending on the <see cref="DrawingScheme" />
         /// </summary>
-        /// <param name="scheme">The <see cref="BmpPwd.DrawingScheme" /> to use</param>
+        /// <param name="scheme">The <see cref="DrawingScheme" /> to use</param>
         /// <param name="y">The y value to be set</param>
         /// <param name="width">The width value to be set</param>
         /// <param name="imageWidth">The <see cref="Image" />'s width</param>
-        internal static void SetWidthY(BmpPwd.DrawingScheme scheme, out int y, out int width, int imageWidth)
+        internal static void SetWidthY(DrawingScheme scheme, out int y, out int width, int imageWidth)
         {
             //Set width and y values for different DrawingSchemes
             switch (scheme)
             {
-                case BmpPwd.DrawingScheme.Circular:
-                    //Circular has radius of textlength -> width = Image.Width / 2
+                case DrawingScheme.Circular:
+                    //Circular has radius of text length -> width = Image.Width / 2
                     width = imageWidth / 2;
                     y = imageWidth / 2;
                     break;
-                case BmpPwd.DrawingScheme.Square:
+                case DrawingScheme.Square:
                     //Square has dynamic height -> width = Image.Width / 2
                     width = imageWidth / 2;
                     y = imageWidth / 2 - 1;
                     break;
-                case BmpPwd.DrawingScheme.Line:
+                case DrawingScheme.Line:
                     //Line has only height of 1 (Index = 0)
                     width = imageWidth;
                     y = 0;
@@ -166,28 +166,28 @@ namespace BmpPwd
         }
 
         /// <summary>
-        ///     Sets width and height values depending on the <see cref="BmpPwd.DrawingScheme" />
+        ///     Sets width and height values depending on the <see cref="DrawingScheme" />
         /// </summary>
-        /// <param name="scheme">The <see cref="BmpPwd.DrawingScheme" /> to use</param>
+        /// <param name="scheme">The <see cref="DrawingScheme" /> to use</param>
         /// <param name="height">The height value to be set</param>
         /// <param name="width">The width value to be set</param>
         /// <param name="textLength">The Encrypted Text's length</param>
-        internal static void SetWidthHeight(BmpPwd.DrawingScheme scheme, out int height, out int width, int textLength)
+        internal static void SetWidthHeight(DrawingScheme scheme, out int height, out int width, int textLength)
         {
             //Set correct Width and Height values for different DrawingSchemes
             switch (scheme)
             {
-                case BmpPwd.DrawingScheme.Circular:
-                    //Circular has radius of bytes -> width & height = textlength * 2
+                case DrawingScheme.Circular:
+                    //Circular has radius of bytes -> width & height = text length * 2
                     width = textLength * 2;
                     height = textLength * 2;
                     break;
-                case BmpPwd.DrawingScheme.Square:
-                    //Square has dynamic height -> width & height = textlength * 2
+                case DrawingScheme.Square:
+                    //Square has dynamic height -> width & height = text length * 2
                     width = textLength * 2;
                     height = textLength * 2;
                     break;
-                case BmpPwd.DrawingScheme.Line:
+                case DrawingScheme.Line:
                     //Line has only height of 1 (default values)
                     height = 1;
                     width = textLength;
@@ -205,12 +205,12 @@ namespace BmpPwd
         /// </summary>
         /// <param name="width">Width of the Image</param>
         /// <param name="y">The Y index of the Image to read from</param>
-        /// <param name="drawingScheme">The <see cref="BmpPwd.DrawingScheme" /> to read</param>
+        /// <param name="drawingScheme">The <see cref="DrawingScheme" /> to read</param>
         /// <param name="encryptedImage">The <see cref="Image" /> to read from</param>
-        /// <param name="colorScheme">The <see cref="BmpPwd.ColorScheme" /> to apply on the Color picking</param>
+        /// <param name="colorScheme">The <see cref="ColorScheme" /> to apply on the Color picking</param>
         /// <returns>The filled <see cref="Color" />[]</returns>
-        internal static Color[] GetPixelsFromImage(int width, int y, BmpPwd.DrawingScheme drawingScheme,
-            BmpPwd.ColorScheme colorScheme, Image encryptedImage)
+        internal static Color[] GetPixelsFromImage(int width, int y, DrawingScheme drawingScheme,
+            ColorScheme colorScheme, Image encryptedImage)
         {
             //Get all Pixels from Image
             var colors = new Color[width];
@@ -219,15 +219,15 @@ namespace BmpPwd
                 for (int i = 0; i < width; i++)
                     switch (drawingScheme)
                     {
-                        case BmpPwd.DrawingScheme.Circular:
+                        case DrawingScheme.Circular:
                             //Circular has dynamic height -> y = height/2
                             colors[i] = bitmap.GetPixel(i, y);
                             break;
-                        case BmpPwd.DrawingScheme.Square:
+                        case DrawingScheme.Square:
                             //Square has dynamic height -> y = height/2
                             colors[i] = bitmap.GetPixel(i, y);
                             break;
-                        case BmpPwd.DrawingScheme.Line:
+                        case DrawingScheme.Line:
                             //Line has only 1 Pixel Height -> y = 0
                             colors[i] = bitmap.GetPixel(i, 0);
                             break;

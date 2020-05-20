@@ -17,8 +17,8 @@ namespace BmpPwdDemo {
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow {
-        private BmpPwd.ColorScheme _colorScheme = BmpPwd.ColorScheme.Greyscale;
-        private BmpPwd.DrawingScheme _scheme = BmpPwd.DrawingScheme.Circular;
+        private ColorScheme _colorScheme = ColorScheme.Greyscale;
+        private DrawingScheme _scheme = DrawingScheme.Circular;
 
 
         public MainWindow() {
@@ -53,7 +53,7 @@ namespace BmpPwdDemo {
             if (string.IsNullOrWhiteSpace(UnencryptedBox.Text))
                 return;
 
-            var encryptedBitmap = BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text, new Cipher(), _scheme, _colorScheme);
+            var encryptedBitmap = BmpPwd.BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text, new Cipher(), _scheme, _colorScheme);
 
             //Convert Bitmap to ImageSource
             using (var memory = new MemoryStream()) {
@@ -110,7 +110,7 @@ namespace BmpPwdDemo {
                             enc.Save(outStream);
                             var bitmap = new Bitmap(outStream);
 
-                            DecryptedBox.Text = BmpPwd.Decrypt("MyPassword", new Bitmap(bitmap), new Cipher(), _scheme,
+                            DecryptedBox.Text = BmpPwd.BmpPwd.Decrypt("MyPassword", new Bitmap(bitmap), new Cipher(), _scheme,
                                 _colorScheme);
 
                             MessageBox.Show("Decrypted: " + DecryptedBox.Text, "Successfully decrypted!");

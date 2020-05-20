@@ -6,35 +6,36 @@ using System.Text;
 namespace BmpPwd
 {
     /// <summary>
+    ///     Color Scheme/Style for Image Drawing
+    /// </summary>
+    public enum ColorScheme
+    {
+        Greyscale,
+        RedOnly,
+        GreenOnly,
+        BlueOnly,
+        RedMixed,
+        GreenMixed,
+        BlueMixed,
+        Rainbow
+    }
+
+    /// <summary>
+    ///     Drawing Scheme/Style for Image Drawing
+    ///     (Use <see cref="DrawingScheme.Line" /> for faster encryption and minimal storage usage)
+    /// </summary>
+    public enum DrawingScheme
+    {
+        Line,
+        Circular,
+        Square
+    }
+
+    /// <summary>
     ///     Text and Image Cryptography
     /// </summary>
     public static class BmpPwd
     {
-        /// <summary>
-        ///     Color Scheme/Style for Image Drawing
-        /// </summary>
-        public enum ColorScheme
-        {
-            Greyscale,
-            RedOnly,
-            GreenOnly,
-            BlueOnly,
-            RedMixed,
-            GreenMixed,
-            BlueMixed,
-            Rainbow
-        }
-
-        /// <summary>
-        ///     Drawing Scheme/Style for Image Drawing
-        ///     (Use <see cref="DrawingScheme.Line" /> for faster encryption and minimal storage usage)
-        /// </summary>
-        public enum DrawingScheme
-        {
-            Line,
-            Circular,
-            Square
-        }
 
         internal static Random Random = new Random();
 
