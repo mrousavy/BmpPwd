@@ -53,6 +53,7 @@ namespace BmpPwd
                                 break;
                         }
                     }
+
                     position++;
                     diameter -= 2;
                 }
@@ -217,6 +218,7 @@ namespace BmpPwd
             using (var bitmap = new Bitmap(encryptedImage))
             {
                 for (int i = 0; i < width; i++)
+                {
                     switch (drawingScheme)
                     {
                         case DrawingScheme.Circular:
@@ -232,6 +234,7 @@ namespace BmpPwd
                             colors[i] = bitmap.GetPixel(i, 0);
                             break;
                     }
+                }
             }
 
             return colors;

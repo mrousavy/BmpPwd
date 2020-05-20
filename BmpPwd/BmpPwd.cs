@@ -36,7 +36,6 @@ namespace BmpPwd
     /// </summary>
     public static class BmpPwd
     {
-
         internal static Random Random = new Random();
 
         //Text & Image Encryption
@@ -44,25 +43,22 @@ namespace BmpPwd
         #region Encrypt
 
         /// <summary>
-        ///     Encrypt Text to an <see cref="Image"/> with default <see cref="Cipher"/> Encryption
+        ///     Encrypt Text to an <see cref="Image" /> with default <see cref="Cipher" /> Encryption
         /// </summary>
         /// <param name="key">The key used for the Encryption</param>
         /// <param name="unencryptedText">The original unencrypted Text</param>
         /// <returns>The Encrypted Image</returns>
-        public static Image Encrypt(string key, string unencryptedText)
-        {
-            return Encrypt(key, unencryptedText, new Cipher());
-        }
+        public static Image Encrypt(string key, string unencryptedText) => Encrypt(key, unencryptedText, new Cipher());
 
         /// <summary>
-        ///     Encrypt Text to an Image with a custom encryption implementing <see cref="ICrypt"/>
+        ///     Encrypt Text to an Image with a custom encryption implementing <see cref="ICrypt" />
         /// </summary>
         /// <param name="key">The key used for the Encryption</param>
         /// <param name="unencryptedText">The original unencrypted Text</param>
         /// <param name="cryptScheme">The Scheme/Interface Used for Encryption</param>
         /// <param name="drawingScheme">The <see cref="DrawingScheme" /> to use for Drawing the Image</param>
         /// <param name="colorScheme">The <see cref="ColorScheme" /> to use for colorizing the Image</param>
-        /// <returns>The Encrypted <see cref="Image"/></returns>
+        /// <returns>The Encrypted <see cref="Image" /></returns>
         public static Image Encrypt(
             string key,
             string unencryptedText,
@@ -71,7 +67,9 @@ namespace BmpPwd
             ColorScheme colorScheme = ColorScheme.RedMixed)
         {
             if (cryptScheme == null)
+            {
                 cryptScheme = new Cipher();
+            }
 
             //Get the encrypted Text
             string encryptedText = cryptScheme.Encrypt(key, unencryptedText);
@@ -103,10 +101,7 @@ namespace BmpPwd
         /// <param name="key">The key used for the Encryption</param>
         /// <param name="encryptedImage">The <see cref="BmpPwd" /> Encrypted <see cref="Image" /></param>
         /// <returns>The decrypted Text from the Image</returns>
-        public static string Decrypt(string key, Image encryptedImage)
-        {
-            return Decrypt(key, encryptedImage, new Cipher());
-        }
+        public static string Decrypt(string key, Image encryptedImage) => Decrypt(key, encryptedImage, new Cipher());
 
         /// <summary>
         ///     Decrypt a encrypted <see cref="Image" /> to a <see cref="string" />
@@ -125,7 +120,9 @@ namespace BmpPwd
             ColorScheme colorScheme = ColorScheme.RedMixed)
         {
             if (cryptScheme == null)
+            {
                 cryptScheme = new Cipher();
+            }
 
             //Set Width and Y for Image Reading
             Helper.SetWidthY(drawingScheme, out int y, out int width, encryptedImage.Width);
@@ -135,7 +132,10 @@ namespace BmpPwd
 
             //Fill ASCII Values with Color's R Value (R = G = B)
             var asciiValues = new byte[width];
-            for (int i = 0; i < width; i++) asciiValues[i] = (byte)(Helper.GetAsciiValue(colorScheme, colors[i]) / 2);
+            for (int i = 0; i < width; i++)
+            {
+                asciiValues[i] = (byte) (Helper.GetAsciiValue(colorScheme, colors[i]) / 2);
+            }
 
             //Decrypt result
             string decrypted = Encoding.Unicode.GetString(asciiValues);

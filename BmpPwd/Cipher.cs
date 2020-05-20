@@ -9,7 +9,7 @@ namespace BmpPwd
     /// <summary>
     ///     Example of <see cref="ICrypt" /> (Cipher En/De-crypt Text with password-keys)
     /// </summary>
-    /// <seealso cref="https://stackoverflow.com/questions/10168240/encrypting-decrypting-a-string-in-c-sharp"/>
+    /// <seealso cref="https://stackoverflow.com/questions/10168240/encrypting-decrypting-a-string-in-c-sharp" />
     public class Cipher : ICrypt
     {
         private const int Keysize = 256;
@@ -26,8 +26,8 @@ namespace BmpPwd
         {
             // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
             // so that the same Salt and IV values can be used when decrypting.  
-            var saltStringBytes = GenerateBitsOfRandomEntropy(AESBlockSize);
-            var ivStringBytes = GenerateBitsOfRandomEntropy(AESBlockSize);
+            var saltStringBytes = GenerateBitsOfRandomEntropy();
+            var ivStringBytes = GenerateBitsOfRandomEntropy();
             var plainTextBytes = Encoding.UTF8.GetBytes(unencryptedText);
             using (var password = new Rfc2898DeriveBytes(key, saltStringBytes, DerivationIterations))
             {
@@ -76,7 +76,8 @@ namespace BmpPwd
             // Get the IV bytes by extracting the next 32 bytes from the supplied cipherText bytes.
             var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8).Take(Keysize / 8).ToArray();
             // Get the actual cipher text bytes by removing the first 64 bytes from the cipherText string.
-            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip((Keysize / 8) * 2).Take(cipherTextBytesWithSaltAndIv.Length - ((Keysize / 8) * 2)).ToArray();
+            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8 * 2)
+                .Take(cipherTextBytesWithSaltAndIv.Length - Keysize / 8 * 2).ToArray();
 
             using (var password = new Rfc2898DeriveBytes(key, saltStringBytes, DerivationIterations))
             {
@@ -94,7 +95,7 @@ namespace BmpPwd
                             using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                             {
                                 var plainTextBytes = new byte[cipherTextBytes.Length];
-                                var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+                                int decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
                                 memoryStream.Close();
                                 cryptoStream.Close();
                                 return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
@@ -112,6 +113,7 @@ namespace BmpPwd
             {
                 rngCsp.GetBytes(randomBytes);
             }
+
             return randomBytes;
         }
     }

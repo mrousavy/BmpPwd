@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BmpPwd;
+﻿using BmpPwd;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BmpPwdTests
 {
@@ -28,9 +28,9 @@ namespace BmpPwdTests
         public void TestBmpPwdCircle()
         {
             var encrypted = BmpPwd.BmpPwd.Encrypt(Key, Text, new Cipher(), DrawingScheme.Circular,
-                BmpPwd.ColorScheme.Rainbow);
+                ColorScheme.Rainbow);
             string decrypted = BmpPwd.BmpPwd.Decrypt(Key, encrypted, new Cipher(), DrawingScheme.Circular,
-                BmpPwd.ColorScheme.Rainbow);
+                ColorScheme.Rainbow);
 
             Assert.AreEqual(Text, decrypted);
         }
@@ -39,9 +39,9 @@ namespace BmpPwdTests
         public void TestBmpPwdSquare()
         {
             var encrypted = BmpPwd.BmpPwd.Encrypt(Key, Text, new Cipher(), DrawingScheme.Square,
-                BmpPwd.ColorScheme.Rainbow);
+                ColorScheme.Rainbow);
             string decrypted = BmpPwd.BmpPwd.Decrypt(Key, encrypted, new Cipher(), DrawingScheme.Square,
-                BmpPwd.ColorScheme.Rainbow);
+                ColorScheme.Rainbow);
 
             Assert.AreEqual(Text, decrypted);
         }

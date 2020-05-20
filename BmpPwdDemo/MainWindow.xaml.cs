@@ -9,38 +9,46 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Microsoft.Win32;
 using BmpPwd;
+using Microsoft.Win32;
 
-namespace BmpPwdDemo {
+namespace BmpPwdDemo
+{
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow {
+    public partial class MainWindow
+    {
         private ColorScheme _colorScheme = ColorScheme.Greyscale;
         private DrawingScheme _scheme = DrawingScheme.Circular;
 
 
-        public MainWindow() {
+        public MainWindow()
+        {
             InitializeComponent();
 
             UnencryptedBox.Focus();
-            var key = "Yeeeet";
+            string key = "Yeeeet";
             var cipher = new Cipher();
-            var encrypted = cipher.Encrypt(key, "Yayeeeeet");
-            var decrypted = cipher.Decrypt(key, encrypted);
+            string encrypted = cipher.Encrypt(key, "Yayeeeeet");
+            string decrypted = cipher.Decrypt(key, encrypted);
         }
 
-        private void EncryptButton_OnClick(object sender, RoutedEventArgs e) {
+        private void EncryptButton_OnClick(object sender, RoutedEventArgs e)
+        {
             Encrypt();
         }
 
-        private void UnencryptedBox_OnKeyDown(object sender, KeyEventArgs e) {
+        private void UnencryptedBox_OnKeyDown(object sender, KeyEventArgs e)
+        {
             if (e.Key == Key.Enter)
+            {
                 Encrypt();
+            }
         }
 
-        public static ImageSource ByteToImage(byte[] imageData) {
+        public static ImageSource ByteToImage(byte[] imageData)
+        {
             var biImg = new BitmapImage();
             var ms = new MemoryStream(imageData);
             biImg.BeginInit();
@@ -53,96 +61,121 @@ namespace BmpPwdDemo {
         }
 
 
-        private void Encrypt() {
+        private void Encrypt()
+        {
             if (string.IsNullOrWhiteSpace(UnencryptedBox.Text))
+            {
                 return;
+            }
 
-            var encryptedBitmap = BmpPwd.BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text, new Cipher(), _scheme, _colorScheme);
+            var encryptedBitmap =
+                BmpPwd.BmpPwd.Encrypt("MyPassword", UnencryptedBox.Text, new Cipher(), _scheme, _colorScheme);
 
             //Convert Bitmap to ImageSource
-            using (var memory = new MemoryStream()) {
+            using (var memory = new MemoryStream())
+            {
                 encryptedBitmap.Save(memory, ImageFormat.Png);
-                byte[] bytes = memory.ToArray();
+                var bytes = memory.ToArray();
                 EncryptedImage.Source = ByteToImage(bytes);
             }
         }
 
-        private void SaveButton_OnClick(object sender, RoutedEventArgs e) {
-            try {
-                var sfd = new SaveFileDialog {
+        private void SaveButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var sfd = new SaveFileDialog
+                {
                     Filter = "Image files (*.png)|*.png",
                     FilterIndex = 2,
                     RestoreDirectory = true
                 };
-                if (sfd.ShowDialog() == true) {
+                if (sfd.ShowDialog() == true)
+                {
                     string path = sfd.FileName;
 
                     var encoder = new PngBitmapEncoder();
                     encoder.Frames.Add(BitmapFrame.Create((BitmapSource) EncryptedImage.Source));
-                    using (var stream = new FileStream(path, FileMode.Create)) {
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
                         encoder.Save(stream);
                     }
                 }
-            } catch (Exception ex) {
+            } catch (Exception ex)
+            {
                 MessageBox.Show($"Could not save Image!\n{ex.Message}", "Error saving Image");
             }
         }
 
-        private void OpenButton_OnClick(object sender, RoutedEventArgs e) {
-            try {
-                var sfd = new OpenFileDialog {
+        private void OpenButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var sfd = new OpenFileDialog
+                {
                     Filter = "Image files (*.png)|*.png",
                     FilterIndex = 2,
                     RestoreDirectory = true
                 };
-                if (sfd.ShowDialog() == true) {
+                if (sfd.ShowDialog() == true)
+                {
                     string path = sfd.FileName;
 
-                    byte[] bytes = File.ReadAllBytes(path);
+                    var bytes = File.ReadAllBytes(path);
 
                     var biImg = new BitmapImage();
-                    using (var ms = new MemoryStream(bytes)) {
+                    using (var ms = new MemoryStream(bytes))
+                    {
                         biImg.BeginInit();
                         biImg.StreamSource = ms;
                         biImg.EndInit();
 
                         EncryptedImage.Source = biImg;
 
-                        using (var outStream = new MemoryStream()) {
+                        using (var outStream = new MemoryStream())
+                        {
                             BitmapEncoder enc = new BmpBitmapEncoder();
                             enc.Frames.Add(BitmapFrame.Create(biImg));
                             enc.Save(outStream);
                             var bitmap = new Bitmap(outStream);
 
-                            DecryptedBox.Text = BmpPwd.BmpPwd.Decrypt("MyPassword", new Bitmap(bitmap), new Cipher(), _scheme,
+                            DecryptedBox.Text = BmpPwd.BmpPwd.Decrypt("MyPassword", new Bitmap(bitmap), new Cipher(),
+                                _scheme,
                                 _colorScheme);
 
                             MessageBox.Show("Decrypted: " + DecryptedBox.Text, "Successfully decrypted!");
                         }
                     }
                 }
-            } catch (Exception ex) {
+            } catch (Exception ex)
+            {
                 MessageBox.Show($"Could not open Image!\n{ex.Message}", "Error opening Image");
             }
         }
 
 
-        private void FormBox_Changed(object sender, SelectionChangedEventArgs e) {
-            try {
+        private void FormBox_Changed(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
                 var cbox = sender as ComboBox;
-                _scheme = (BmpPwd.DrawingScheme) Enum.Parse(typeof(BmpPwd.DrawingScheme),
+                _scheme = (DrawingScheme) Enum.Parse(typeof(DrawingScheme),
                     (cbox.SelectedItem as ComboBoxItem).Content as string);
-            } catch {
+            } catch
+            {
                 // ignored
             }
         }
 
-        private void ColorBox_Changed(object sender, SelectionChangedEventArgs e) {
-            try {
+        private void ColorBox_Changed(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
                 var cbox = sender as ComboBox;
-                _colorScheme = (BmpPwd.ColorScheme) Enum.Parse(typeof(BmpPwd.ColorScheme),
+                _colorScheme = (ColorScheme) Enum.Parse(typeof(ColorScheme),
                     ((cbox.SelectedItem as ComboBoxItem).Content as string).Replace(" ", ""));
-            } catch {
+            } catch
+            {
                 // ignored
             }
         }

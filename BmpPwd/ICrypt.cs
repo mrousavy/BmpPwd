@@ -1,7 +1,7 @@
 ﻿namespace BmpPwd
 {
     /// <summary>
-    ///     Cryptography interface, see <see cref="Cipher"/> for an example implementation
+    ///     Cryptography interface, see <see cref="Cipher" /> for an example implementation
     /// </summary>
     public interface ICrypt
     {
