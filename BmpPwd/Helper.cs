@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Linq;
 using static mrousavy.Cryptography.BmpPwd;
 
 namespace mrousavy
@@ -75,27 +76,28 @@ namespace mrousavy
             int rnd2 = Random.Next(0, b);
             int rainbow1 = Random.Next(0, 255);
             int rainbow2 = Random.Next(0, 255);
+            int value = b * 2;
 
             switch (colorScheme)
             {
                 case ColorScheme.Greyscale:
-                    return Color.FromArgb(b, b, b);
+                    return Color.FromArgb(value, value, value);
                 case ColorScheme.RedOnly:
-                    return Color.FromArgb(b, 0, 0);
+                    return Color.FromArgb(value, 0, 0);
                 case ColorScheme.GreenOnly:
-                    return Color.FromArgb(0, b, 0);
+                    return Color.FromArgb(0, value, 0);
                 case ColorScheme.BlueOnly:
-                    return Color.FromArgb(0, 0, b);
+                    return Color.FromArgb(0, 0, value);
                 case ColorScheme.RedMixed:
-                    return Color.FromArgb(b, rnd1, rnd2);
+                    return Color.FromArgb(value, rnd1, rnd2);
                 case ColorScheme.GreenMixed:
-                    return Color.FromArgb(rnd1, b, rnd2);
+                    return Color.FromArgb(rnd1, value, rnd2);
                 case ColorScheme.BlueMixed:
-                    return Color.FromArgb(rnd1, rnd2, b);
+                    return Color.FromArgb(rnd1, rnd2, value);
                 case ColorScheme.Rainbow:
-                    return Color.FromArgb(b, rainbow1, rainbow2);
+                    return Color.FromArgb(value, rainbow1, rainbow2);
                 default:
-                    return Color.FromArgb(b, b, b);
+                    return Color.FromArgb(value, value, value);
             }
         }
 
