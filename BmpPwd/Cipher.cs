@@ -12,7 +12,13 @@ namespace BmpPwd
     /// <seealso cref="https://stackoverflow.com/questions/10168240/encrypting-decrypting-a-string-in-c-sharp" />
     public class Cipher : ICrypt
     {
+#if NETSTANDARD
+        private const int Keysize = 128;
+#elif NETCOREAPP
+        private const int Keysize = 128;
+#elif NETFRAMEWORK
         private const int Keysize = 256;
+#endif
         private const int DerivationIterations = 1000;
 
         /// <summary>
@@ -25,13 +31,13 @@ namespace BmpPwd
         {
             // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
             // so that the same Salt and IV values can be used when decrypting.  
-            var saltStringBytes = GenerateBitsOfRandomEntropy();
-            var ivStringBytes = GenerateBitsOfRandomEntropy();
+            var saltStringBytes = GenerateBitsOfRandomEntropy(Keysize);
+            var ivStringBytes = GenerateBitsOfRandomEntropy(Keysize);
             var plainTextBytes = Encoding.UTF8.GetBytes(unencryptedText);
             using (var password = new Rfc2898DeriveBytes(key, saltStringBytes, DerivationIterations))
             {
                 var keyBytes = password.GetBytes(Keysize / 8);
-                using (var symmetricKey = new RijndaelManaged())
+                using (var symmetricKey = Rijndael.Create())
                 {
                     // only .NET Core the block size has to be 128!
                     symmetricKey.BlockSize = Keysize;
@@ -81,7 +87,7 @@ namespace BmpPwd
             using (var password = new Rfc2898DeriveBytes(key, saltStringBytes, DerivationIterations))
             {
                 var keyBytes = password.GetBytes(Keysize / 8);
-                using (var symmetricKey = new RijndaelManaged())
+                using (var symmetricKey = Rijndael.Create())
                 {
                     // only .NET Core the block size has to be 128!
                     symmetricKey.BlockSize = Keysize;
