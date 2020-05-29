@@ -34,7 +34,7 @@ To decrypt a **BmpPwd-Encrypted Image**, a Program must know:
 
 ## Using the default AES Cipher (Rijndael)
 
-> Note: On .NET Core and .NET Standard the Rijndael Implementation uses a key block-size of `128` bytes. On .NET Framework `256` bytes are used. See: [Cipher.cs](BmpPwd/Cipher.cs#L15)
+> Note: On .NET Core and .NET Standard the Rijndael Implementation uses a key block-size of `128` bytes. On .NET Framework `256` bytes are used. For compatibility reasons, BmpPwd uses `128` bytes on all platforms. See: [Cipher.cs](BmpPwd/Cipher.cs#L15). Use `BmpPwd.Encrypt` and supply a custom `Cipher()` instance with a custom `keysize` parameter.
 
 ### Encrypt a string
    * C#:

@@ -12,14 +12,13 @@ namespace BmpPwd
     /// <seealso cref="https://stackoverflow.com/questions/10168240/encrypting-decrypting-a-string-in-c-sharp" />
     public class Cipher : ICrypt
     {
-#if NETSTANDARD
-        private const int Keysize = 128;
-#elif NETCOREAPP
-        private const int Keysize = 128;
-#elif NETFRAMEWORK
-        private const int Keysize = 256;
-#endif
+        private readonly int _keysize;
         private const int DerivationIterations = 1000;
+
+        public Cipher(int keySize = 128)
+        {
+            _keysize = keySize;
+        }
 
         /// <summary>
         ///     Encrypt a plain text using a string password-key
@@ -31,16 +30,16 @@ namespace BmpPwd
         {
             // Salt and IV is randomly generated each time, but is preprended to encrypted cipher text
             // so that the same Salt and IV values can be used when decrypting.  
-            var saltStringBytes = GenerateBitsOfRandomEntropy(Keysize);
-            var ivStringBytes = GenerateBitsOfRandomEntropy(Keysize);
+            var saltStringBytes = GenerateBitsOfRandomEntropy(_keysize);
+            var ivStringBytes = GenerateBitsOfRandomEntropy(_keysize);
             var plainTextBytes = Encoding.UTF8.GetBytes(unencryptedText);
             using (var password = new Rfc2898DeriveBytes(key, saltStringBytes, DerivationIterations))
             {
-                var keyBytes = password.GetBytes(Keysize / 8);
+                var keyBytes = password.GetBytes(_keysize / 8);
                 using (var symmetricKey = Rijndael.Create())
                 {
                     // only .NET Core the block size has to be 128!
-                    symmetricKey.BlockSize = Keysize;
+                    symmetricKey.BlockSize = _keysize;
                     symmetricKey.Mode = CipherMode.CBC;
                     symmetricKey.Padding = PaddingMode.PKCS7;
                     using (var encryptor = symmetricKey.CreateEncryptor(keyBytes, ivStringBytes))
@@ -77,20 +76,20 @@ namespace BmpPwd
             // [32 bytes of Salt] + [32 bytes of IV] + [n bytes of CipherText]
             var cipherTextBytesWithSaltAndIv = Convert.FromBase64String(encryptedText);
             // Get the salt bytes by extracting the first 32 bytes from the supplied cipherText bytes.
-            var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(Keysize / 8).ToArray();
+            var saltStringBytes = cipherTextBytesWithSaltAndIv.Take(_keysize / 8).ToArray();
             // Get the IV bytes by extracting the next 32 bytes from the supplied cipherText bytes.
-            var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8).Take(Keysize / 8).ToArray();
+            var ivStringBytes = cipherTextBytesWithSaltAndIv.Skip(_keysize / 8).Take(_keysize / 8).ToArray();
             // Get the actual cipher text bytes by removing the first 64 bytes from the cipherText string.
-            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip(Keysize / 8 * 2)
-                .Take(cipherTextBytesWithSaltAndIv.Length - Keysize / 8 * 2).ToArray();
+            var cipherTextBytes = cipherTextBytesWithSaltAndIv.Skip(_keysize / 8 * 2)
+                .Take(cipherTextBytesWithSaltAndIv.Length - _keysize / 8 * 2).ToArray();
 
             using (var password = new Rfc2898DeriveBytes(key, saltStringBytes, DerivationIterations))
             {
-                var keyBytes = password.GetBytes(Keysize / 8);
+                var keyBytes = password.GetBytes(_keysize / 8);
                 using (var symmetricKey = Rijndael.Create())
                 {
                     // only .NET Core the block size has to be 128!
-                    symmetricKey.BlockSize = Keysize;
+                    symmetricKey.BlockSize = _keysize;
                     symmetricKey.Mode = CipherMode.CBC;
                     symmetricKey.Padding = PaddingMode.PKCS7;
                     using (var decryptor = symmetricKey.CreateDecryptor(keyBytes, ivStringBytes))
